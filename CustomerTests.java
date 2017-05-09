@@ -12,7 +12,7 @@ import asgn2Customers.DroneDeliveryCustomer;
  * 
  * @author Person A
  * 
- *
+ *fuk u
  */
 public class CustomerTests {
 	
