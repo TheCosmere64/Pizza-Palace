@@ -1,6 +1,8 @@
 package asgn2Pizzas;
 
 import java.time.LocalTime;
+import asgn2Exceptions.PizzaException;
+import asgn2Pizzas.PizzaTopping;
 
 
 /**
@@ -13,6 +15,12 @@ import java.time.LocalTime;
  *
  */
 public abstract class Pizza  {
+	
+	private int pizzaQuantity;
+	private LocalTime pizzaOrderTime;
+	private LocalTime pizzaDeliveryTime;
+	private String pizzaType;
+	private double pizzaPrice;
 	
 	/**
 	 *  This class represents a pizza produced at the Pizza Palace restaurant.  A detailed description of the class's fields
@@ -32,7 +40,13 @@ public abstract class Pizza  {
 	 * 
 	 */
 	public Pizza(int quantity, LocalTime orderTime, LocalTime deliveryTime, String type, double price) throws PizzaException{
-		// TO DO	
+		
+		super();
+		pizzaQuantity = quantity;
+		pizzaOrderTime = orderTime;
+		pizzaDeliveryTime = deliveryTime;
+		pizzaType = type;
+		pizzaPrice = price;
 	}
 
 	/**
@@ -93,7 +107,8 @@ public abstract class Pizza  {
 	 * @return Returns  true if the instance of Pizza contains the specified topping and false otherwise.
 	 */
 	public final boolean containsTopping(PizzaTopping topping){
-		// TO DO
+		
+		
 	}
 	
 	/**
@@ -101,7 +116,8 @@ public abstract class Pizza  {
 	 * @return the quantity of pizzas ordered. 
 	 */
 	public final int getQuantity(){
-		// TO DO
+		
+		return pizzaQuantity;
 	}
 
 	/**
@@ -110,7 +126,8 @@ public abstract class Pizza  {
 	 * @return A human understandable description of the Pizza's type.
 	 */
 	public final String getPizzaType(){
-		// TO DO
+		
+		return pizzaType;
 	}
 
 

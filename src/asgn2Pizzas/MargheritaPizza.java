@@ -1,7 +1,7 @@
 package asgn2Pizzas;
 
 import java.time.LocalTime;
-
+import asgn2Pizzas.PizzaTopping;;
 import asgn2Exceptions.PizzaException;
 
 
@@ -17,7 +17,9 @@ import asgn2Exceptions.PizzaException;
  */
 public class MargheritaPizza extends Pizza {
 
-	
+	private int margQuantity;
+	private LocalTime margOrderTime;
+	private LocalTime margDeliveryTime;
 	/**
 	 * 
 	 *  This class represents a margherita pizza made at the  Pizza Palace restaurant.   The margherita pizza has certain
@@ -35,7 +37,16 @@ public class MargheritaPizza extends Pizza {
 	 *
 	 */
 	public MargheritaPizza(int quantity, LocalTime orderTime, LocalTime deliveryTime) throws PizzaException {
-		// TO DO
+		
+		super(quantity, orderTime, deliveryTime, "Margherita", 12.5);
+		 margQuantity = quantity;
+		 margOrderTime = orderTime;
+		 margDeliveryTime = deliveryTime;
+	}
+	
+	private void margPrice(){
+		
+		
 	}
 
 }
