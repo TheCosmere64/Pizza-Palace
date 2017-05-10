@@ -30,6 +30,7 @@ public abstract class Customer {
 	 * 
 	 */
 	
+	//In case not working this.variable
 	private String customerName;
 	private String customerMobileNumber;
 	private int customerLocationX;

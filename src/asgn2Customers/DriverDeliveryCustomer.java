@@ -28,12 +28,19 @@ public class DriverDeliveryCustomer extends Customer {
 	 * 
 	 */
 	
+	private int customerLocationX;
+	private int customerLocationY;
+	
 	public DriverDeliveryCustomer(String name, String mobileNumber, int locationX, int locationY) throws CustomerException {
 		if (name.length() < 1 || name.length() > 20) {
 			throw new CustomerException("The name must be between 1 and 20 characters long");
 		} else if (name.trim().length() < 1) {
 			throw new CustomerException("The name cannot be all whitespace");			
-		} 
+		} else if (locationX > 10 || locationX < -10 || locationY > 10 || locationY < -10) {
+			throw new CustomerException("The location can't be greater than 10 blocks north, south, east or west from the restuarant");
+		}
+		customerLocationX = locationX;
+		customerLocationY = locationY;
 	}
 	
 	/**
@@ -43,6 +50,8 @@ public class DriverDeliveryCustomer extends Customer {
 	 * @return The distance between the restaurant and the customer in Manhattan distance.
 	 */
 	@Override
-	public double getDeliveryDistance() {	}
+	public double getDeliveryDistance() {	
+		return Maths.abs(customerLocationX) + Maths.abs(customerLocationY);
+	}
 
 }

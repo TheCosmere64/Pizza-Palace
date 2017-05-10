@@ -35,9 +35,7 @@ public class PickUpCustomer extends Customer {
 			throw new CustomerException("The first digit needs to be a 0");
 		} else if (lengthNumber != 10) {
 			throw new CustomerException("The length of the phoneNumber needs to be equal to 10");
-		} else if (locationX > 10 || locationX < -10 || locationY > 10 || locationY < -10) {
-			throw new CustomerException("The location can't be greater than 10 blocks north, south, east or west from the restuarant");
-		}
+		} 
 	}
 
 	/**
