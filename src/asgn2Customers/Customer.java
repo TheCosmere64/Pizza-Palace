@@ -32,24 +32,17 @@ public abstract class Customer {
 	
 	private String customerName;
 	private String customerMobileNumber;
-	private int customeLocationX;
+	private int customerLocationX;
 	private int customerLocationY;
 	private String customerType;
 	
 	public Customer(String name, String mobileNumber, int locationX, int locationY, String type) throws CustomerException{
-<<<<<<< HEAD
-		this.name = name;
-		this.mobileNumber = mobileNumber;
-		this.locationX = locationX;
-		this.locationY = locationY;
-		this.type = type;
-=======
-		this.customerName = name;
-		this.customerMobileNumber = mobileNumber;
-		this.customeLocationX = locationX;
-		this.customerLocationY = locationY;
-		this.customerType = type;
->>>>>>> origin/master
+
+		customerName = name;
+		customerMobileNumber = mobileNumber;
+		customerLocationX = locationX;
+		customerLocationY = locationY;
+		customerType = type;
 	}
 	
 	/**
@@ -57,12 +50,8 @@ public abstract class Customer {
 	 * @return The Customer's name.
 	 */
 	public final String getName(){
-<<<<<<< HEAD
 		
-		return name;
-=======
 		return customerName;
->>>>>>> origin/master
 	}
 	
 	/**
@@ -70,12 +59,8 @@ public abstract class Customer {
 	 * @return The Customer's mobile number.
 	 */
 	public final String getMobileNumber(){
-<<<<<<< HEAD
 		
-		return mobileNumber;
-=======
 		return customerMobileNumber;
->>>>>>> origin/master
 	}
 
 	/**
@@ -84,13 +69,8 @@ public abstract class Customer {
 	 * @return A human understandable description of the Customer's type.
 	 */
 	public final String getCustomerType(){
-<<<<<<< HEAD
 
-		return type;
-
-=======
 		return customerType;
->>>>>>> origin/master
 	}
 	
 	/**
@@ -99,12 +79,8 @@ public abstract class Customer {
 	 * @return The Customer's X location
 	 */
 	public final int getLocationX(){
-<<<<<<< HEAD
-
-		return locationX;
-=======
+		
 		return customerLocationX;
->>>>>>> origin/master
 	}
 
 	/**
@@ -113,12 +89,8 @@ public abstract class Customer {
 	 * @return The Customer's Y location
 	 */
 	public final int getLocationY(){
-<<<<<<< HEAD
 
-		return locationY;
-=======
 		return customerLocationY;
->>>>>>> origin/master
 	}
 
 	/**
