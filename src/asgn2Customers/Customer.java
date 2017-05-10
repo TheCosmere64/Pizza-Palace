@@ -29,8 +29,23 @@ public abstract class Customer {
 	 * @throws CustomerException if supplied parameters are invalid 
 	 * 
 	 */
+	
+	private String name;
+	private String mobileNumber;
+	private int locationX;
+	private int locationY;
+	private String type;
+	
 	public Customer(String name, String mobileNumber, int locationX, int locationY, String type) throws CustomerException{
+<<<<<<< HEAD
 		// TO DO
+=======
+		this.name = name;
+		this.mobileNumber = mobileNumber;
+		this.locationX = locationX;
+		this.locationY = locationY;
+		this.type = type;
+>>>>>>> origin/master
 	}
 	
 	/**
@@ -38,7 +53,11 @@ public abstract class Customer {
 	 * @return The Customer's name.
 	 */
 	public final String getName(){
+<<<<<<< HEAD
 		// TO DO
+=======
+		return name;
+>>>>>>> origin/master
 	}
 	
 	/**
@@ -46,7 +65,11 @@ public abstract class Customer {
 	 * @return The Customer's mobile number.
 	 */
 	public final String getMobileNumber(){
+<<<<<<< HEAD
 		// TO DO
+=======
+		return mobileNumber;
+>>>>>>> origin/master
 	}
 
 	/**
@@ -55,7 +78,11 @@ public abstract class Customer {
 	 * @return A human understandable description of the Customer's type.
 	 */
 	public final String getCustomerType(){
+<<<<<<< HEAD
 		// TO DO
+=======
+		return type;
+>>>>>>> origin/master
 	}
 	
 	/**
@@ -64,7 +91,11 @@ public abstract class Customer {
 	 * @return The Customer's X location
 	 */
 	public final int getLocationX(){
+<<<<<<< HEAD
 		// TO DO
+=======
+		return locationX;
+>>>>>>> origin/master
 	}
 
 	/**
@@ -73,7 +104,11 @@ public abstract class Customer {
 	 * @return The Customer's Y location
 	 */
 	public final int getLocationY(){
+<<<<<<< HEAD
 		// TO DO
+=======
+		return locationY;
+>>>>>>> origin/master
 	}
 
 	/**
