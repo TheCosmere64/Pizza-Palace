@@ -36,7 +36,7 @@ public class CustomerFactory {
 			throw new CustomerException("The customer code isn't valid");
 		} 
 		//Pick Up    Driver Delivery    Drone Delivery
-		theCustomer = new Customer(name, mobileNumber, );
+		theCustomer = new Customer();
 		//String name, String mobileNumber, int locationX, int locationY, String type
 		return Customer;
 	}
