@@ -16,7 +16,7 @@ public abstract class Customer {
 	private String custMobileNum;
 	private int custX;
 	private int custY;
-	//private String custType;
+	private String custType;
 
 	/**
 	 *  This class represents a customer of the Pizza Palace restaurant.  A detailed description of the class's fields
