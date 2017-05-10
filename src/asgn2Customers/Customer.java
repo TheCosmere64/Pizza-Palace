@@ -11,7 +11,16 @@ import asgn2Exceptions.CustomerException;
  * @author Person B
 */
 public abstract class Customer {
+<<<<<<< HEAD
 
+=======
+	
+	private String custName;
+	private String custMobileNum;
+	private int custX;
+	private int custY;
+	//private String custType;
+>>>>>>> origin/master
 
 	/**
 	 *  This class represents a customer of the Pizza Palace restaurant.  A detailed description of the class's fields
