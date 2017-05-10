@@ -28,6 +28,10 @@ public class CustomerFactory {
 	 * @throws CustomerException if the customerCode is not one of the three valid codes listed in Section 5.3 of the Assignment Specification. 
 	 */
 	public static Customer getCustomer(String customerCode, String name, String mobileNumber, int locationX,  int locationY) throws CustomerException{
-		// TO DO
+		//margherita(“PZM”), vegetarian (“PZV”) or meat lovers (“PZL”).
+		if (customerCode != "PZM" || customerCode != "PZV" || customerCode != "PZL") {
+			throw new CustomerException("The ");
+		}
+		return Customer;
 	}
 }
