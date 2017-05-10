@@ -35,9 +35,8 @@ public class CustomerFactory {
 		if (customerCode != "PUC" || customerCode != "DNC" || customerCode != "DVC") {
 			throw new CustomerException("The customer code isn't valid");
 		} 
-		gege
 		//Pick Up    Driver Delivery    Drone Delivery
-		//theCustomer = new Customer(name, mobileNumber, );
+		theCustomer = new Customer(name, mobileNumber, );
 		//String name, String mobileNumber, int locationX, int locationY, String type
 		return Customer;
 	}
