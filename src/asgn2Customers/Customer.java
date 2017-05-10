@@ -11,7 +11,12 @@ import asgn2Exceptions.CustomerException;
  * @author Person B
 */
 public abstract class Customer {
-
+	
+	private String custName;
+	private String custMobileNum;
+	private int custX;
+	private int custY;
+	private String custType;
 
 	/**
 	 *  This class represents a customer of the Pizza Palace restaurant.  A detailed description of the class's fields
@@ -31,7 +36,13 @@ public abstract class Customer {
 	 * 
 	 */
 	public Customer(String name, String mobileNumber, int locationX, int locationY, String type) throws CustomerException{
-		// TO DO
+		
+		custName = name;
+		custMobileNum = mobileNumber;
+		custX = locationX;
+		custY = locationY;
+		custType = type;
+		
 	}
 	
 	/**
@@ -39,7 +50,8 @@ public abstract class Customer {
 	 * @return The Customer's name.
 	 */
 	public final String getName(){
-		// TO DO
+		
+		return custName;
 	}
 	
 	/**
@@ -47,7 +59,8 @@ public abstract class Customer {
 	 * @return The Customer's mobile number.
 	 */
 	public final String getMobileNumber(){
-		// TO DO
+		
+		return custMobileNum;
 	}
 
 	/**
@@ -56,7 +69,8 @@ public abstract class Customer {
 	 * @return A human understandable description of the Customer's type.
 	 */
 	public final String getCustomerType(){
-		// TO DO
+		
+		return custType;
 	}
 	
 	/**
@@ -65,7 +79,8 @@ public abstract class Customer {
 	 * @return The Customer's X location
 	 */
 	public final int getLocationX(){
-		// TO DO
+		
+		return custX;
 	}
 
 	/**
@@ -74,7 +89,8 @@ public abstract class Customer {
 	 * @return The Customer's Y location
 	 */
 	public final int getLocationY(){
-		// TO DO
+		
+		return custY;
 	}
 
 	/**
