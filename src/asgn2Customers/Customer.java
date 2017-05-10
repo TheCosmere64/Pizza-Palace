@@ -118,7 +118,7 @@ public abstract class Customer {
 	 */
 	public abstract double getDeliveryDistance();
 
-	
+	//Complicated coding
 	
 	/**
 	 * Compares *this* Customer object with an instance of an *other* Customer object and returns true if  
