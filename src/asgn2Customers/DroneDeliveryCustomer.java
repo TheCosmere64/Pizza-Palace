@@ -29,9 +29,14 @@ public class DroneDeliveryCustomer extends Customer {
 	 * 
 	 */
 	
-	private int deliveryDistance;
+	//UNSURE SUPER BEFORE EXCEPTION CHECKING COULD THROW ERRORS
+	//Creating the class before its checked could create a bad customer class that doesnt work
+	
+	private double deliveryDistance;
 	
 	public DroneDeliveryCustomer(String name, String mobileNumber, int locationX, int locationY) throws CustomerException {
+		
+		super(name, mobileNumber, locationX, locationY, "Drone Delivery");
 		
 		int firstDigit = Integer.parseInt(mobileNumber.substring(0, 1));
 		int lengthNumber = Integer.valueOf(mobileNumber).toString().length();
@@ -47,6 +52,8 @@ public class DroneDeliveryCustomer extends Customer {
 		} else if (lengthNumber != 10) {
 			throw new CustomerException("The length of the phoneNumber needs to be equal to 10");
 		} 
+				
+		deliveryDistance = Math.sqrt(Math.pow(locationX, 2) + Math.pow(locationY, 2));
 	}
 
 	/**
@@ -57,8 +64,7 @@ public class DroneDeliveryCustomer extends Customer {
 	 */
 	@Override
 	public double getDeliveryDistance() {
-		// TO DO
-
+		return deliveryDistance;
 	}
 	
 

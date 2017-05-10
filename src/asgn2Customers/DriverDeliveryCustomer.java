@@ -32,7 +32,9 @@ public class DriverDeliveryCustomer extends Customer {
 	private int customerLocationY;
 	
 	public DriverDeliveryCustomer(String name, String mobileNumber, int locationX, int locationY) throws CustomerException {
-
+		
+		super(name, mobileNumber, locationX, locationY, "Driver Delivery");
+		
 		int firstDigit = Integer.parseInt(mobileNumber.substring(0, 1));
 		int lengthNumber = Integer.valueOf(mobileNumber).toString().length();
 		

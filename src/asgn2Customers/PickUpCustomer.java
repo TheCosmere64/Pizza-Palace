@@ -27,6 +27,9 @@ public class PickUpCustomer extends Customer {
 	 * 
 	 */
 	public PickUpCustomer(String name, String mobileNumber, int locationX,  int locationY) throws CustomerException {
+		
+		super(name, mobileNumber, locationX, locationY, "Pick Up");
+		
 		int firstDigit = Integer.parseInt(mobileNumber.substring(0, 1));
 		int lengthNumber = Integer.valueOf(mobileNumber).toString().length();
 		if (name.length() < 1 || name.length() > 20) {
