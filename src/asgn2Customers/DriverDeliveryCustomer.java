@@ -33,7 +33,7 @@ public class DriverDeliveryCustomer extends Customer {
 			throw new CustomerException("The name must be between 1 and 20 characters long");
 		} else if (name.trim().length() < 1) {
 			throw new CustomerException("The name cannot be all whitespace");			
-		}
+		} ggg
 	}
 	
 	/**
