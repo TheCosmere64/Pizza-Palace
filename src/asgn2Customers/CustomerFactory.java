@@ -27,11 +27,18 @@ public class CustomerFactory {
 	 * @return A valid PickUpCustomer, DriverDeliveryCustomer or DroneDeliveryCustomer depending on the customerCode.
 	 * @throws CustomerException if the customerCode is not one of the three valid codes listed in Section 5.3 of the Assignment Specification. 
 	 */
+	
+	Customer theCustomer;
+	
 	public static Customer getCustomer(String customerCode, String name, String mobileNumber, int locationX,  int locationY) throws CustomerException{
 		//margherita(“PZM”), vegetarian (“PZV”) or meat lovers (“PZL”).
-		if (customerCode != "PZM" || customerCode != "PZV" || customerCode != "PZL") {
-			throw new CustomerException("The ");
-		}
+		if (customerCode != "PUC" || customerCode != "DNC" || customerCode != "DVC") {
+			throw new CustomerException("The customer code isn't valid");
+		} 
+		gege
+		//Pick Up    Driver Delivery    Drone Delivery
+		//theCustomer = new Customer(name, mobileNumber, );
+		//String name, String mobileNumber, int locationX, int locationY, String type
 		return Customer;
 	}
 }

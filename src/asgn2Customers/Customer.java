@@ -9,7 +9,7 @@ import asgn2Exceptions.CustomerException;
  * fields and their constraints is provided in Section 5.2 of the Assignment Specification.  
  * 
  * @author Person B
-*/
+*/	
 public abstract class Customer {
 
 	/**
