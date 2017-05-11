@@ -21,6 +21,7 @@ public abstract class Pizza  {
 	private LocalTime pizzaDeliveryTime;
 	private String pizzaType;
 	private double pizzaPrice;
+	private double pizzaCost;
 	
 	/**
 	 *  This class represents a pizza produced at the Pizza Palace restaurant.  A detailed description of the class's fields
@@ -41,7 +42,6 @@ public abstract class Pizza  {
 	 */
 	public Pizza(int quantity, LocalTime orderTime, LocalTime deliveryTime, String type, double price) throws PizzaException{
 		
-		super();
 		pizzaQuantity = quantity;
 		pizzaOrderTime = orderTime;
 		pizzaDeliveryTime = deliveryTime;
@@ -56,7 +56,25 @@ public abstract class Pizza  {
 	 * <P> POST: The cost field is set to sum of the Pizzas's toppings
 	 */
 	public final void calculateCostPerPizza(){
-		// TO DO
+		
+		if (pizzaType == "Margherita"){
+			pizzaCost += PizzaTopping.CHEESE.getCost();
+			pizzaCost += PizzaTopping.TOMATO.getCost(); 
+		}
+		else if (pizzaType == "Vegetarian"){
+			pizzaCost += PizzaTopping.CHEESE.getCost();
+			pizzaCost += PizzaTopping.TOMATO.getCost();
+			pizzaCost += PizzaTopping.EGGPLANT.getCost();
+			pizzaCost += PizzaTopping.MUSHROOM.getCost();
+			pizzaCost += PizzaTopping.CAPSICUM.getCost();
+		}
+		else if (pizzaType == "Meatlovers"){			
+			pizzaCost += PizzaTopping.CHEESE.getCost();
+			pizzaCost += PizzaTopping.BACON.getCost();
+			pizzaCost += PizzaTopping.PEPPERONI.getCost();
+			pizzaCost += PizzaTopping.SALAMI.getCost();
+			pizzaCost += PizzaTopping.MUSHROOM.getCost();
+		}		
 	}
 	
 	/**
@@ -64,7 +82,7 @@ public abstract class Pizza  {
 	 * @return The amount that an individual pizza costs to make.
 	 */
 	public final double getCostPerPizza(){
-		// TO DO
+		calculateCostPerPizza
 	}
 
 	/**

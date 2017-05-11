@@ -4,8 +4,6 @@ import java.time.LocalTime;
 import asgn2Pizzas.PizzaTopping;;
 import asgn2Exceptions.PizzaException;
 
-
-
 /**
  * 
  *  A class that represents a margherita pizza made at the Pizza Palace restaurant. 
@@ -17,9 +15,6 @@ import asgn2Exceptions.PizzaException;
  */
 public class MargheritaPizza extends Pizza {
 
-	private int margQuantity;
-	private LocalTime margOrderTime;
-	private LocalTime margDeliveryTime;
 	/**
 	 * 
 	 *  This class represents a margherita pizza made at the  Pizza Palace restaurant.   The margherita pizza has certain
@@ -37,16 +32,32 @@ public class MargheritaPizza extends Pizza {
 	 *
 	 */
 	public MargheritaPizza(int quantity, LocalTime orderTime, LocalTime deliveryTime) throws PizzaException {
-		
-		super(quantity, orderTime, deliveryTime, "Margherita", 12.5);
-		 margQuantity = quantity;
-		 margOrderTime = orderTime;
-		 margDeliveryTime = deliveryTime;
+			
+		super(quantity, orderTime, deliveryTime, "Margherita", 8);
+			
+		if (quantity > 10) {				
+			throw new PizzaException("Too many pizzas ordered");
+		}
+		else if (quantity < 1){			
+			throw new PizzaException("No pizzas ordered");
+		}
+		else if (orderTime == deliveryTime){			
+			throw new PizzaException("Cannot deliver a pizza instantaneously");
+		}
+		else if (orderTime.isBefore(deliveryTime)){			
+			throw new PizzaException("Cannot deliver pizza before it was ordered");
+		}
+		else if (deliveryTime.getMinute() - orderTime.getMinute() < 10){			
+			throw new PizzaException("Must allow 10 minutes to cook pizza");
+		}
+		else if (deliveryTime.getHour() - orderTime.getHour() > 1){			
+			throw new PizzaException("Pizza has expired and must be thrown out");
+		}
+		else if (orderTime.getHour() < 7){			
+			throw new PizzaException("Kitchen is not yet open at this time");
+		}
+		else if (orderTime.getHour() >= 23){			
+			throw new PizzaException("Kitchen is now closed");
+		}			
 	}
-	
-	private void margPrice(){
-		
-		
-	}
-
 }

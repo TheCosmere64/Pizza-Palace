@@ -1,7 +1,7 @@
 package asgn2Pizzas;
 
 import java.time.LocalTime;
-
+import asgn2.Pizzas.*;
 import asgn2Exceptions.PizzaException;
 
 /**
@@ -14,8 +14,7 @@ import asgn2Exceptions.PizzaException;
  */
 
 public class PizzaFactory {
-
-
+	
 	/**
 	 * A method that uses the Factory Method pattern to produce an instance of one of the asgn2Pizzas.Pizza subclasses. 
 	 * Subclasses are created using the pizzaCode. All valid pizza codes are listed in Section 5.3 of the Assignment Specification.
@@ -23,13 +22,49 @@ public class PizzaFactory {
 	 * 
 	 * @param pizzaCode - A code indicating the subclass of asgn2Pizzas.Pizza to instantiate. The valid codes are listed in Section 5.3 of the Assignment Specification. 
 	 * @param quantity - The number of pizzas ordered 
-	 * @param orderTime - The time that the pizza order was made and sent to the kitchen 
+	 * @param orderTime - The time that the pizza order was made and sent to the kitchen
 	 * @param deliveryTime - The time that the pizza was delivered to the customer
 	 * @throws PizzaException if the pizzaCode is not one of the three valid codes listed in Section 5.3 of the Assignment Specification. 
 	 * @return A valid Pizza object using the specified parameters 
 	 * */
 	public static Pizza getPizza(String pizzaCode, int quantity, LocalTime orderTime, LocalTime deliveryTime) throws PizzaException{
-		// TO DO
+		
+		if (quantity > 10) {			
+			throw new PizzaException("Too many pizzas ordered");
+		}
+		else if (quantity < 1){			
+			throw new PizzaException("No pizzas ordered");
+		}
+		else if (orderTime == deliveryTime){			
+			throw new PizzaException("Cannot deliver a pizza instantaneously");
+		}
+		else if (orderTime.isBefore(deliveryTime)){			
+			throw new PizzaException("Cannot deliver pizza before it was ordered");
+		}
+		else if (deliveryTime.getMinute() - orderTime.getMinute() < 10){
+			throw new PizzaException("Must allow 10 minutes to cook pizza");
+		}
+		else if (deliveryTime.getHour() - orderTime.getHour() > 1){
+			throw new PizzaException("Pizza has expired and must be thrown out");
+		}
+		else if (orderTime.getHour() < 7){
+			throw new PizzaException("Kitchen is not yet open at this time");
+		}
+		else if (orderTime.getHour() >= 23){		
+			throw new PizzaException("Kitchen is now closed");
+		}
+		else if (pizzaCode != "PZM" || pizzaCode != "PZV" || pizzaCode != "PZL"){
+			throw new PizzaException("Not a valid pizza code");
+		}
+		
+		if (pizzaCode == "PZM"){	
+			return MargheritaPizza;
+		}
+		else if (pizzaCode == "PZV"){			
+			return VegetarianPizza;
+		}
+		else if (pizzaCode == "PZL"){			
+			return meatLoversPizza;
+		}
 	}
-
 }
