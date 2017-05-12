@@ -35,22 +35,10 @@ public class LogHandler {
 	public static ArrayList<Customer> populateCustomerDataset(String filename) throws CustomerException, LogHandlerException{
 		
 		ArrayList<Customer> customers = new ArrayList<Customer>();
-		BufferedReader theFile = new BufferedReader(new FileReader(filename));
-
-		while (theFile.readLine() != null) {
-			customers.add(createCustomer(theFile.readLine()));
-		}
 		try {
-			BufferedReader theFile = new BufferedReader (new FileReader(filename));
+			BufferedReader theFile = new BufferedReader(new FileReader(filename));
 			while (theFile.readLine() != null) {
-				String values = theFile.readLine();
-				String[] variables = values.split(",");
-				customerName = variables[2];
-				customerMobile = variables[3];
-				customerCode = variables[4];
-				locationX = Integer.parseInt(variables[5]);
-				locationY = Integer.parseInt(variables[6]);
-				customers.add(CustomerFactory.getCustomer(customerCode, customerName, customerMobile, locationX, locationY));
+				customers.add(createCustomer(theFile.readLine()));
 			}
 			theFile.close();
 		} catch (Exception e) {
@@ -58,6 +46,7 @@ public class LogHandler {
         	e.printStackTrace();
 		}
 		return customers;
+
 	}
 
 	/**
@@ -69,7 +58,7 @@ public class LogHandler {
 	 * 
 	 */
 	public static ArrayList<Pizza> populatePizzaDataset(String filename) throws PizzaException, LogHandlerException{
-		// TO DO
+		//TO DO
 	}		
 
 	
@@ -108,7 +97,7 @@ public class LogHandler {
 	 * @throws LogHandlerException - If there was a problem parsing the line from the log file.
 	 */
 	public static Pizza createPizza(String line) throws PizzaException, LogHandlerException{
-		// TO DO		
+		
 	}
 
 }

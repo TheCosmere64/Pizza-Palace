@@ -1,7 +1,6 @@
 package asgn2Pizzas;
 
 import java.time.LocalTime;
-import asgn2.Pizzas.*;
 import asgn2Exceptions.PizzaException;
 
 /**
@@ -29,7 +28,7 @@ public class PizzaFactory {
 	 * */
 	public static Pizza getPizza(String pizzaCode, int quantity, LocalTime orderTime, LocalTime deliveryTime) throws PizzaException{
 		
-		if (quantity > 10) {			
+		if (quantity > 10) {		
 			throw new PizzaException("Too many pizzas ordered");
 		}
 		else if (quantity < 1){			
@@ -58,13 +57,14 @@ public class PizzaFactory {
 		}
 		
 		if (pizzaCode == "PZM"){	
-			return MargheritaPizza;
+			return new MargheritaPizza(quantity, orderTime, deliveryTime);
 		}
 		else if (pizzaCode == "PZV"){			
-			return VegetarianPizza;
+			return new VegetarianPizza(quantity, orderTime, deliveryTime);
 		}
 		else if (pizzaCode == "PZL"){			
-			return meatLoversPizza;
+			return new MeatLoversPizza(quantity, orderTime, deliveryTime);
 		}
+		return null;
 	}
 }
