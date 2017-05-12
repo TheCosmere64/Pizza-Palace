@@ -1,8 +1,11 @@
 package asgn2Restaurant;
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import asgn2Customers.Customer;
+import asgn2Customers.CustomerFactory;
 import asgn2Exceptions.CustomerException;
 import asgn2Exceptions.LogHandlerException;
 import asgn2Exceptions.PizzaException;
@@ -30,8 +33,32 @@ public class LogHandler {
 	 * 
 	 */
 	public static ArrayList<Customer> populateCustomerDataset(String filename) throws CustomerException, LogHandlerException{
-		// TO DO
-	}		
+		
+		ArrayList<Customer> customers = new ArrayList<Customer>();
+		BufferedReader theFile = new BufferedReader(new FileReader(filename));
+
+		while (theFile.readLine() != null) {
+			customers.add(createCustomer(theFile.readLine()));
+		}
+		try {
+			BufferedReader theFile = new BufferedReader (new FileReader(filename));
+			while (theFile.readLine() != null) {
+				String values = theFile.readLine();
+				String[] variables = values.split(",");
+				customerName = variables[2];
+				customerMobile = variables[3];
+				customerCode = variables[4];
+				locationX = Integer.parseInt(variables[5]);
+				locationY = Integer.parseInt(variables[6]);
+				customers.add(CustomerFactory.getCustomer(customerCode, customerName, customerMobile, locationX, locationY));
+			}
+			theFile.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+        	e.printStackTrace();
+		}
+		return customers;
+	}
 
 	/**
 	 * Returns an ArrayList of Pizza objects from the information contained in the log file ordered as they appear in the log file. .
@@ -55,7 +82,21 @@ public class LogHandler {
 	 * @throws LogHandlerException - If there was a problem parsing the line from the log file.
 	 */
 	public static Customer createCustomer(String line) throws CustomerException, LogHandlerException{
-		// TO DO
+		Customer customer;
+		String customerName = null;
+		String customerMobile = null;
+		String customerCode = null;
+		int locationX;
+		int locationY;
+		
+		String[] variables = line.split(",");
+		customerName = variables[2];
+		customerMobile = variables[3];
+		customerCode = variables[4];
+		locationX = Integer.parseInt(variables[5]);
+		locationY = Integer.parseInt(variables[6]);
+		customer = CustomerFactory.getCustomer(customerCode, customerName, customerMobile, locationX, locationY);
+		return customer;
 	}
 	
 	/**
