@@ -1,6 +1,8 @@
 package asgn2Pizzas;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import asgn2Exceptions.PizzaException;
 
@@ -16,6 +18,8 @@ import asgn2Exceptions.PizzaException;
  */
 public class VegetarianPizza extends Pizza {
 
+	private List<PizzaTopping> toppings = new ArrayList<PizzaTopping>();
+	
 	/**
 	 * 
 	 *  This class represents a vegetarian pizza made at the  Pizza Palace restaurant. The vegetarian pizza has certain
@@ -59,5 +63,14 @@ public class VegetarianPizza extends Pizza {
 		else if (orderTime.getHour() >= 23){			
 			throw new PizzaException("Kitchen is now closed");
 		}			
+		setToppings();
+	}
+	private void setToppings(){
+		
+		toppings.add(PizzaTopping.CHEESE);
+		toppings.add(PizzaTopping.TOMATO);
+		toppings.add(PizzaTopping.CAPSICUM);
+		toppings.add(PizzaTopping.EGGPLANT);
+		toppings.add(PizzaTopping.MUSHROOM);
 	}
 }

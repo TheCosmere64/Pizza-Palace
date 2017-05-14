@@ -1,7 +1,10 @@
 package asgn2Pizzas;
 
 import java.time.LocalTime;
-import asgn2Pizzas.PizzaTopping;;
+import java.util.ArrayList;
+import java.util.List;
+
+import asgn2Pizzas.PizzaTopping;
 import asgn2Exceptions.PizzaException;
 
 /**
@@ -14,6 +17,8 @@ import asgn2Exceptions.PizzaException;
  *
  */
 public class MargheritaPizza extends Pizza {
+
+	private List<PizzaTopping> toppings = new ArrayList<PizzaTopping>();	
 
 	/**
 	 * 
@@ -58,6 +63,12 @@ public class MargheritaPizza extends Pizza {
 		}
 		else if (orderTime.getHour() >= 23){			
 			throw new PizzaException("Kitchen is now closed");
-		}			
+		}	
+		setToppings();
+	}
+	private void setToppings(){
+		
+		toppings.add(PizzaTopping.CHEESE);
+		toppings.add(PizzaTopping.TOMATO);
 	}
 }

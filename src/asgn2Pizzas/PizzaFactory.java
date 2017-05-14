@@ -1,7 +1,7 @@
 package asgn2Pizzas;
 
 import java.time.LocalTime;
-import asgn2.Pizzas.*;
+import asgn2Pizzas.Pizza;
 import asgn2Exceptions.PizzaException;
 
 /**
@@ -15,6 +15,8 @@ import asgn2Exceptions.PizzaException;
 
 public class PizzaFactory {
 	
+	//private static MargheritaPizza pizza;
+	
 	/**
 	 * A method that uses the Factory Method pattern to produce an instance of one of the asgn2Pizzas.Pizza subclasses. 
 	 * Subclasses are created using the pizzaCode. All valid pizza codes are listed in Section 5.3 of the Assignment Specification.
@@ -27,7 +29,7 @@ public class PizzaFactory {
 	 * @throws PizzaException if the pizzaCode is not one of the three valid codes listed in Section 5.3 of the Assignment Specification. 
 	 * @return A valid Pizza object using the specified parameters 
 	 * */
-	public static Pizza getPizza(String pizzaCode, int quantity, LocalTime orderTime, LocalTime deliveryTime) throws PizzaException{
+	public static Pizza getPizza(String pizzaCode, int quantity, LocalTime orderTime, LocalTime deliveryTime) throws PizzaException{		
 		
 		if (quantity > 10) {			
 			throw new PizzaException("Too many pizzas ordered");
@@ -57,14 +59,17 @@ public class PizzaFactory {
 			throw new PizzaException("Not a valid pizza code");
 		}
 		
-		if (pizzaCode == "PZM"){	
-			return MargheritaPizza;
+		if (pizzaCode == "PZM"){
+			MargheritaPizza pizza = new MargheritaPizza(quantity, deliveryTime, deliveryTime);
+			return pizza;
 		}
 		else if (pizzaCode == "PZV"){			
-			return VegetarianPizza;
+			VegetarianPizza pizza = new VegetarianPizza(quantity, deliveryTime, deliveryTime);
+			return pizza;
 		}
-		else if (pizzaCode == "PZL"){			
-			return meatLoversPizza;
+		else{			
+			MeatLoversPizza pizza = new MeatLoversPizza(quantity, deliveryTime, deliveryTime);
+			return pizza;
 		}
 	}
 }

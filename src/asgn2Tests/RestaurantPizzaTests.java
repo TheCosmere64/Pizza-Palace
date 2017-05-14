@@ -33,7 +33,5 @@ public class RestaurantPizzaTests {
 		
 	}
 	
-	@Test
-	
 	
 }
