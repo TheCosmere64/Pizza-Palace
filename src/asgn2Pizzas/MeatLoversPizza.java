@@ -63,13 +63,14 @@ public class MeatLoversPizza extends Pizza {
 		else if (orderTime.getHour() >= 23){			
 			throw new PizzaException("Kitchen is now closed");
 		}			
+		setToppings();
 	}
 	private void setToppings(){
 		
-		toppings.add(PizzaTopping.CHEESE);
-		toppings.add(PizzaTopping.TOMATO);
-		toppings.add(PizzaTopping.BACON);
-		toppings.add(PizzaTopping.PEPPERONI);
-		toppings.add(PizzaTopping.SALAMI);
+		pizzaToppings.add(PizzaTopping.CHEESE);
+		pizzaToppings.add(PizzaTopping.TOMATO);
+		pizzaToppings.add(PizzaTopping.BACON);
+		pizzaToppings.add(PizzaTopping.PEPPERONI);
+		pizzaToppings.add(PizzaTopping.SALAMI);
 	}
 }

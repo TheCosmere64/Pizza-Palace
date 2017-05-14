@@ -68,7 +68,7 @@ public class MargheritaPizza extends Pizza {
 	}
 	private void setToppings(){
 		
-		toppings.add(PizzaTopping.CHEESE);
-		toppings.add(PizzaTopping.TOMATO);
+		pizzaToppings.add(PizzaTopping.CHEESE);
+		pizzaToppings.add(PizzaTopping.TOMATO);
 	}
 }

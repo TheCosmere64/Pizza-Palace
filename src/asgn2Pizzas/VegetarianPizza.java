@@ -67,10 +67,10 @@ public class VegetarianPizza extends Pizza {
 	}
 	private void setToppings(){
 		
-		toppings.add(PizzaTopping.CHEESE);
-		toppings.add(PizzaTopping.TOMATO);
-		toppings.add(PizzaTopping.CAPSICUM);
-		toppings.add(PizzaTopping.EGGPLANT);
-		toppings.add(PizzaTopping.MUSHROOM);
+		pizzaToppings.add(PizzaTopping.CHEESE);
+		pizzaToppings.add(PizzaTopping.TOMATO);
+		pizzaToppings.add(PizzaTopping.CAPSICUM);
+		pizzaToppings.add(PizzaTopping.EGGPLANT);
+		pizzaToppings.add(PizzaTopping.MUSHROOM);
 	}
 }

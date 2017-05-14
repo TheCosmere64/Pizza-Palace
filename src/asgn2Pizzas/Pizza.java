@@ -27,7 +27,7 @@ public abstract class Pizza  {
 	private double pizzaCost;
 	private double totalCost;
 	private double totalPrice;
-	private List<PizzaTopping> pizzaToppings = new ArrayList<PizzaTopping>();
+	protected List<PizzaTopping> pizzaToppings = new ArrayList<PizzaTopping>();
 	
 	/**
 	 *  This class represents a pizza produced at the Pizza Palace restaurant.  A detailed description of the class's fields
@@ -53,24 +53,6 @@ public abstract class Pizza  {
 		pizzaDeliveryTime = deliveryTime;
 		pizzaType = type;
 		pizzaPrice = price;
-		if (price == 8){
-			pizzaToppings.add(PizzaTopping.TOMATO);
-			pizzaToppings.add(PizzaTopping.CHEESE);
-		}
-		else if (price == 10){
-			pizzaToppings.add(PizzaTopping.TOMATO);
-			pizzaToppings.add(PizzaTopping.CHEESE);
-			pizzaToppings.add(PizzaTopping.MUSHROOM);
-			pizzaToppings.add(PizzaTopping.CAPSICUM);
-			pizzaToppings.add(PizzaTopping.EGGPLANT);
-		}
-		else if (price == 12){
-			pizzaToppings.add(PizzaTopping.TOMATO);
-			pizzaToppings.add(PizzaTopping.CHEESE);
-			pizzaToppings.add(PizzaTopping.BACON);
-			pizzaToppings.add(PizzaTopping.PEPPERONI);
-			pizzaToppings.add(PizzaTopping.SALAMI);
-		}
 	}
 
 	/**
