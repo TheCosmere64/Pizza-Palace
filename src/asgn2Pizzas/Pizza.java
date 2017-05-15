@@ -20,13 +20,14 @@ import asgn2Pizzas.*;
 public abstract class Pizza  {
 	
 	private int pizzaQuantity;
-	private LocalTime pizzaOrderTime;
-	private LocalTime pizzaDeliveryTime;
+	protected LocalTime pizzaOrderTime;
+	protected LocalTime pizzaDeliveryTime;
 	private String pizzaType;
 	private double pizzaPrice;
 	private double pizzaCost;
 	private double totalCost;
 	private double totalPrice;
+	private double profit;
 	protected List<PizzaTopping> pizzaToppings = new ArrayList<PizzaTopping>();
 	
 	/**
@@ -47,12 +48,35 @@ public abstract class Pizza  {
 	 * 
 	 */
 	public Pizza(int quantity, LocalTime orderTime, LocalTime deliveryTime, String type, double price) throws PizzaException{
-		
+	
+	if (quantity > 10) {				
+		throw new PizzaException("Too many pizzas ordered");
+	}
+	else if (quantity < 1){			
+		throw new PizzaException("No pizzas ordered");
+	}
+	else if (orderTime == deliveryTime){			
+		throw new PizzaException("Cannot deliver a pizza instantaneously");
+	}
+	else if (orderTime.isBefore(deliveryTime)){			
+		throw new PizzaException("Cannot deliver pizza before it was ordered");
+	}
+	else if (deliveryTime.getMinute() - orderTime.getMinute() < 10){			
+		throw new PizzaException("Must allow 10 minutes to cook pizza");
+	}
+	else if (deliveryTime.getHour() - orderTime.getHour() > 1){			
+		throw new PizzaException("Pizza has expired and must be thrown out");
+	}
+	else if (orderTime.getHour() < 7){			
+		throw new PizzaException("Kitchen is not yet open at this time");
+	}
+	else if (orderTime.getHour() >= 23){			
+		throw new PizzaException("Kitchen is now closed");
+	}	
 		pizzaQuantity = quantity;
 		pizzaOrderTime = orderTime;
 		pizzaDeliveryTime = deliveryTime;
 		pizzaType = type;
-		pizzaPrice = price;
 	}
 
 	/**
@@ -107,8 +131,7 @@ public abstract class Pizza  {
 	 * @return  Returns the profit made by the restaurant on the order which is the order price minus the order cost.
 	 */
 	public final double getOrderProfit(){
-		double profit;
-		profit = totalCost - 2;
+		profit = pizzaPrice - pizzaCost;
 		return profit;
 	}
 	
@@ -118,12 +141,10 @@ public abstract class Pizza  {
 	 * @param topping -  A topping as specified in the enumeration PizzaTopping
 	 * @return Returns  true if the instance of Pizza contains the specified topping and false otherwise.
 	 */
-	public final boolean containsTopping(PizzaTopping topping){
-		
+	public final boolean containsTopping(PizzaTopping topping){		
 		for	(int i = 0; i < pizzaToppings.size(); i++){
 			
-			if (pizzaToppings.get(i) == topping){
-				
+			if (pizzaToppings.get(i) == topping){			
 				return true;
 			}
 		}
