@@ -44,6 +44,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	public PizzaGUI(String title) {
 		restaurant = new PizzaRestaurant();
 		JFrame frame = new JFrame (title);
+		
 	}
 
 	
