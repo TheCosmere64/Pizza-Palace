@@ -59,6 +59,18 @@ public class LogHandler {
 	 */
 	public static ArrayList<Pizza> populatePizzaDataset(String filename) throws PizzaException, LogHandlerException{
 		//TO DO
+		ArrayList<Pizza> pizzaArray = new ArrayList<Pizza>();
+		try {
+			BufferedReader theFile = new BufferedReader(new FileReader(filename));
+			while (theFile.readLine() != null) {
+				pizzaArray.add(createPizza(theFile.readLine()));
+			}
+			theFile.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+        	e.printStackTrace();
+		}
+		return pizzaArray;
 	}		
 
 	
@@ -98,6 +110,13 @@ public class LogHandler {
 	 */
 	public static Pizza createPizza(String line) throws PizzaException, LogHandlerException{
 		
+		try {
+			BufferedReader theFile = new BufferedReader(new FileReader(filename));
+			theFile.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+        	e.printStackTrace();
+		}
 	}
 
 }
