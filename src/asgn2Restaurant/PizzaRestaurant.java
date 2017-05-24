@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import asgn2Customers.Customer;
 import asgn2Exceptions.CustomerException;
+import asgn2Exceptions.PizzaException;
 import asgn2Pizzas.Pizza;
 
 /**
@@ -53,7 +54,16 @@ public class PizzaRestaurant {
      *
 	 */
 	public boolean processLog(String filename) throws CustomerException, PizzaException, LogHandlerException{
-		// TO DO
+				
+		for (int line = 0; line < LogHandler.populateCustomerDataset(filename).size(); line++){
+			
+			LogHandler.createCustomer(Integer.toString(line));
+		}
+		for (int line = 0; line < LogHandler.populatePizzaDataset(filename).size(); line++){
+			
+			LogHandler.createPizza(Integer.toString(line));
+		}
+		
 	}
 
 	/**
@@ -75,7 +85,13 @@ public class PizzaRestaurant {
 	 * @throws PizzaException if index is invalid.
 	 */	
 	public Pizza getPizzaByIndex(int index) throws PizzaException{
-		// TO DO
+		try{
+			pizzas.get(index);
+		}catch(Exception e){
+			System.out.println("Pizza index is invalid");
+		}
+		return pizzas.get(index);
+				
 	}
 	
 	/**

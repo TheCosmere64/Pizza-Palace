@@ -3,6 +3,7 @@ package asgn2Restaurant;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import asgn2Customers.Customer;
 import asgn2Customers.CustomerFactory;
@@ -10,6 +11,7 @@ import asgn2Exceptions.CustomerException;
 import asgn2Exceptions.LogHandlerException;
 import asgn2Exceptions.PizzaException;
 import asgn2Pizzas.Pizza;
+import asgn2Pizzas.PizzaFactory;
 
 /**
  *
@@ -46,7 +48,6 @@ public class LogHandler {
         	e.printStackTrace();
 		}
 		return customers;
-
 	}
 
 	/**
@@ -87,15 +88,19 @@ public class LogHandler {
 		String customerName = null;
 		String customerMobile = null;
 		String customerCode = null;
-		int locationX;
-		int locationY;
-		
-		String[] variables = line.split(",");
+		int locationX = 0;
+		int locationY = 0;
+		try{
+			String[] variables = line.split(",");
 		customerName = variables[2];
 		customerMobile = variables[3];
 		customerCode = variables[4];
 		locationX = Integer.parseInt(variables[5]);
 		locationY = Integer.parseInt(variables[6]);
+		}catch (Exception e){
+			throw new LogHandlerException("Error parsing the line from the log file");
+		}
+		
 		customer = CustomerFactory.getCustomer(customerCode, customerName, customerMobile, locationX, locationY);
 		return customer;
 	}
@@ -109,14 +114,26 @@ public class LogHandler {
 	 * @throws LogHandlerException - If there was a problem parsing the line from the log file.
 	 */
 	public static Pizza createPizza(String line) throws PizzaException, LogHandlerException{
-		
-		try {
-			BufferedReader theFile = new BufferedReader(new FileReader(filename));
-			theFile.close();
+		Pizza pizza;
+		String pizzaCode = null;
+		int quantity = 0;
+		LocalTime orderTime = LocalTime.MIN;
+		LocalTime deliveryTime = LocalTime.MIN;
+		try {						
+			
+			String[] variable = line.split(",");
+			quantity = Integer.parseInt(variable[8]);
+			orderTime.plusHours(Integer.parseInt(variable[0].split(":")[0]));
+			orderTime.plusMinutes(Integer.parseInt(variable[0].split(":")[1]));
+			deliveryTime.plusHours(Integer.parseInt(variable[1].split(":")[0]));
+			deliveryTime.plusMinutes(Integer.parseInt(variable[1].split(":")[1]));
+			pizzaCode = variable[7];
+			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-        	e.printStackTrace();
+			throw new LogHandlerException("Error parsing the line from the log file");
 		}
+		pizza = PizzaFactory.getPizza(pizzaCode, quantity, orderTime, deliveryTime);
+		return pizza;
 	}
 
 }
