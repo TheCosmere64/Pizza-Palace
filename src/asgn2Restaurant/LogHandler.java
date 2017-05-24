@@ -4,6 +4,7 @@ package asgn2Restaurant;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import asgn2Customers.Customer;
 import asgn2Customers.CustomerFactory;
@@ -35,12 +36,12 @@ public class LogHandler {
 	 * 
 	 */
 	public static ArrayList<Customer> populateCustomerDataset(String filename) throws CustomerException, LogHandlerException{
-		
+		String line ="";
 		ArrayList<Customer> customers = new ArrayList<Customer>();
 		try {
 			BufferedReader theFile = new BufferedReader(new FileReader(filename));
-			while (theFile.readLine() != null) {
-				customers.add(createCustomer(theFile.readLine()));
+			while ((line = theFile.readLine()) != null) {
+				customers.add(createCustomer(line));
 			}
 			theFile.close();
 		} catch (Exception e) {
@@ -60,11 +61,13 @@ public class LogHandler {
 	 */
 	public static ArrayList<Pizza> populatePizzaDataset(String filename) throws PizzaException, LogHandlerException{
 		//TO DO
+		String line = "";
 		ArrayList<Pizza> pizzaArray = new ArrayList<Pizza>();
 		try {
 			BufferedReader theFile = new BufferedReader(new FileReader(filename));
-			while (theFile.readLine() != null) {
-				pizzaArray.add(createPizza(theFile.readLine()));
+			while ((line = theFile.readLine()) != null) {
+				System.out.println(line);
+				pizzaArray.add(createPizza(line));
 			}
 			theFile.close();
 		} catch (Exception e) {
@@ -91,12 +94,13 @@ public class LogHandler {
 		int locationX = 0;
 		int locationY = 0;
 		try{
+		System.out.println(line);
 			String[] variables = line.split(",");
-		customerName = variables[2];
-		customerMobile = variables[3];
-		customerCode = variables[4];
-		locationX = Integer.parseInt(variables[5]);
-		locationY = Integer.parseInt(variables[6]);
+			customerName = variables[2];
+			customerMobile = variables[3];
+			customerCode = variables[4];
+			locationX = Integer.parseInt(variables[5]);
+			locationY = Integer.parseInt(variables[6]);
 		}catch (Exception e){
 			throw new LogHandlerException("Error parsing the line from the log file");
 		}
@@ -119,19 +123,19 @@ public class LogHandler {
 		int quantity = 0;
 		LocalTime orderTime = LocalTime.MIN;
 		LocalTime deliveryTime = LocalTime.MIN;
-		try {						
-			
-			String[] variable = line.split(",");
+		try {									
+			String[] variable = line.split(",");		
 			quantity = Integer.parseInt(variable[8]);
-			orderTime.plusHours(Integer.parseInt(variable[0].split(":")[0]));
-			orderTime.plusMinutes(Integer.parseInt(variable[0].split(":")[1]));
-			deliveryTime.plusHours(Integer.parseInt(variable[1].split(":")[0]));
-			deliveryTime.plusMinutes(Integer.parseInt(variable[1].split(":")[1]));
-			pizzaCode = variable[7];
-			
+			orderTime = (LocalTime.parse(variable[0]));
+			orderTime.format(DateTimeFormatter.ISO_LOCAL_TIME);
+			deliveryTime = LocalTime.parse(variable[1]);
+			deliveryTime.format(DateTimeFormatter.ISO_LOCAL_TIME);
+			pizzaCode = variable[7];			
 		} catch (Exception e) {
 			throw new LogHandlerException("Error parsing the line from the log file");
 		}
+		System.out.println(orderTime.toString());
+		System.out.println(deliveryTime.toString());
 		pizza = PizzaFactory.getPizza(pizzaCode, quantity, orderTime, deliveryTime);
 		return pizza;
 	}

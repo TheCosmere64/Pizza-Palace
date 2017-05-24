@@ -9,19 +9,17 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.text.DefaultCaret;
 
-import asgn2Customers.Customer;
 import asgn2Pizzas.Pizza;
 import asgn2Restaurant.PizzaRestaurant;
 import java.time.LocalTime;
+import asgn2Exceptions.*;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.table.TableColumn;
 
 
 /**
@@ -47,7 +45,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	private JLabel descLabel;
 	private JPanel titlePanel = new JPanel();
 	private JPanel operationPanel = new JPanel();
-	private JFileChooser logFile = new JFileChooser();
+	private JFileChooser logFile = new JFileChooser(new File("logs"));
 	private ArrayList<LocalTime> orderTime = new ArrayList<LocalTime>();
 	private ArrayList<LocalTime> deliveryTime = new ArrayList<LocalTime>();
 	private ArrayList<String> custName = new ArrayList<String>();
@@ -62,12 +60,11 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	 * Creates a new Pizza GUI with the specified title 
 	 * @param title - The title for the supertype JFrame
 	 */
-	public PizzaGUI(String title) {
-		super(title);
+	public PizzaGUI(String title) throws LogHandlerException, PizzaException, CustomerException{
+		super(title);		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		logFile.setCurrentDirectory(new java.io.File("C:/Users/narut/Desktop/Log Files"));
 		logFile.setDialogTitle("do it");
-		logFile.setFileSelectionMode(JFileChooser.OPEN_DIALOG);
+		logFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		this.setLayout(new GridLayout(0,1));
 		lblTitle = createLabel("Pizza Palace Order Reciever");
 		descLabel = createLabel("Import Order Log File");
@@ -123,6 +120,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		return button;	
 	} 
 	
+	
 	private JLabel createLabel(String text) {
 		JLabel label = new JLabel(text);
 		return label;	
@@ -131,45 +129,14 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	private void storeLogs(JButton button){
 		button.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {	        		 
-	        	 Charset charset = Charset.forName("US-ASCII");
-	        	 logFile.showOpenDialog(null);
-	        	 try (BufferedReader reader = Files.newBufferedReader(logFile.getSelectedFile().toPath(), charset)) {
-	        		StringBuilder logCollection = new StringBuilder();
-	        		int line = 0;
-	        		int gapOccurrence = 0;
-	        		while ((line = reader.read()) != -1){
-	        			if (line == '\n'){
-	        				logCollection.append(',');
-	        				gapOccurrence++;
-	        			}
-	        			logCollection.append((char)line);
-	        		}
-	        		for (int i = 0; i <= gapOccurrence; i++){
-	        			int change = 9 * i;		        			
-	        			//StringBuilder time1 = new StringBuilder();
-	        			//time1.append((logCollection.toString().split(",")[change]).trim());
-	        			orderTime.add(LocalTime.MIN);
-	        			orderTime.get(i).plusHours(Long.parseLong(((logCollection.toString().split(",")[change]).split(":")[0]).trim()));
-	        			orderTime.get(i).plusMinutes(Long.parseLong(((logCollection.toString().split(",")[change]).split(":")[1]).trim()));
-	        			//orderTime.get(i).plusSeconds(Long.parseLong(((logCollection.toString().split(",")[change]).split("")[1]).trim()));
-	        			//StringBuilder time2 = new StringBuilder();
-	        			//time2.append(logCollection.toString().split(",")[1 + change]);
-	        			deliveryTime.add(LocalTime.MIN);
-	        			deliveryTime.get(i).plusHours(Long.parseLong(((logCollection.toString().split(",")[1 + change]).split(":")[0]).trim()));
-	        			deliveryTime.get(i).plusMinutes(Long.parseLong(((logCollection.toString().split(",")[1 + change]).split(":")[1]).trim()));
-	        			//orderTime.get(i).plusSeconds(Long.parseLong(((logCollection.toString().split(",")[1 + change]).split("")[1]).trim()));
-	        			custName.add(logCollection.toString().split(",")[2 + change]);
-		        	 	mobile.add(Integer.parseInt(logCollection.toString().split(",")[3 + change]));
-		        	 	acquireCode.add(logCollection.toString().split(",")[4 + change]);
-		        	 	x_pos.add(Integer.parseInt(logCollection.toString().split(",")[5 + change]));
-		        	 	y_pos.add(Integer.parseInt(logCollection.toString().split(",")[6 + change]));
-		        	 	pizzaCode.add(logCollection.toString().split(",")[7 + change]);
-		        	 	quantity.add(Integer.parseInt(((logCollection.toString().split(",")[8 + change]).trim())));
-	      			}
-	        		secondPage();
-	        	 } catch (IOException x) {
-	        		 System.err.format("IOException: %s%n", x);
-	        	 }	
+	        	logFile.showOpenDialog(null);
+	        	try {
+					restaurant.processLog(String.valueOf(logFile.getSelectedFile().getAbsolutePath()));
+				} catch (CustomerException | PizzaException | LogHandlerException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+	        	secondPage();	
 	         }           
 	     });
 	}

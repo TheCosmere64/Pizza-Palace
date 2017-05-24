@@ -36,7 +36,7 @@ public class PickUpCustomer extends Customer {
 			throw new CustomerException("The customers name needs to be been 1 character and 20 characters long");
 		} else if (firstDigit != 0) {
 			throw new CustomerException("The first digit needs to be a 0");
-		} else if (lengthNumber != 10) {
+		} else if (lengthNumber != 9) {
 			throw new CustomerException("The length of the phoneNumber needs to be equal to 10");
 		} 
 	}

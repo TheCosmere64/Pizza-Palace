@@ -3,6 +3,9 @@ package asgn2Wizards;
 
 import javax.swing.SwingUtilities;
 
+import asgn2Exceptions.CustomerException;
+import asgn2Exceptions.LogHandlerException;
+import asgn2Exceptions.PizzaException;
 import asgn2GUIs.PizzaGUI;
 
 /**
@@ -24,8 +27,11 @@ public class PizzaWizard {
 	/**
 	 * The entry point to the rest of the system. 
 	 * @param args Command Line Arguments
+	 * @throws CustomerException 
+	 * @throws PizzaException 
+	 * @throws LogHandlerException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws LogHandlerException, PizzaException, CustomerException {
 		SwingUtilities.invokeLater(new PizzaGUI("Pizza Place"));		
 		
 	}

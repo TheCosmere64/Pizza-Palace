@@ -41,7 +41,7 @@ public class DroneDeliveryCustomer extends Customer {
 		int firstDigit = Integer.parseInt(mobileNumber.substring(0, 1));
 		int lengthNumber = Integer.valueOf(mobileNumber).toString().length();
 		
-		if (name.length() < 1 || name.length() > 20) {
+		if (name.length() < 0 || name.length() > 19) {
 			throw new CustomerException("The name must be between 1 and 20 characters long");
 		} else if (name.trim().length() < 1) {
 			throw new CustomerException("The name cannot be all whitespace");			
@@ -49,7 +49,7 @@ public class DroneDeliveryCustomer extends Customer {
 			throw new CustomerException("The location can't be greater than 10 blocks north, south, east or west from the restuarant");
 		} else if (firstDigit != 0) {
 			throw new CustomerException("The first digit needs to be a 0");
-		} else if (lengthNumber != 10) {
+		} else if (lengthNumber != 9) {
 			throw new CustomerException("The length of the phoneNumber needs to be equal to 10");
 		} 
 				

@@ -31,6 +31,8 @@ public class PizzaFactory {
 	 * */
 	public static Pizza getPizza(String pizzaCode, int quantity, LocalTime orderTime, LocalTime deliveryTime) throws PizzaException{		
 		
+		System.out.println(orderTime.toString());
+		System.out.println(deliveryTime.toString());
 		if (quantity > 10) {			
 			throw new PizzaException("Too many pizzas ordered");
 		}
@@ -40,7 +42,7 @@ public class PizzaFactory {
 		else if (orderTime == deliveryTime){			
 			throw new PizzaException("Cannot deliver a pizza instantaneously");
 		}
-		else if (orderTime.isBefore(deliveryTime)){			
+		else if (deliveryTime.isBefore(orderTime)){			
 			throw new PizzaException("Cannot deliver pizza before it was ordered");
 		}
 		else if (deliveryTime.getMinute() - orderTime.getMinute() < 10){
@@ -55,21 +57,19 @@ public class PizzaFactory {
 		else if (orderTime.getHour() >= 23){		
 			throw new PizzaException("Kitchen is now closed");
 		}
-		else if (pizzaCode != "PZM" || pizzaCode != "PZV" || pizzaCode != "PZL"){
+		
+		if (pizzaCode.equals("PZM")){
+			MargheritaPizza pizza = new MargheritaPizza(quantity, orderTime, deliveryTime);
+			return pizza;
+		}
+		else if (pizzaCode.equals("PZV")){			
+			VegetarianPizza pizza = new VegetarianPizza(quantity, orderTime, deliveryTime);
+			return pizza;
+		}
+		else if (pizzaCode.equals("PZL")){			
+			MeatLoversPizza pizza = new MeatLoversPizza(quantity, orderTime, deliveryTime);
+			return pizza;
+		}else
 			throw new PizzaException("Not a valid pizza code");
 		}
-		
-		if (pizzaCode == "PZM"){
-			MargheritaPizza pizza = new MargheritaPizza(quantity, deliveryTime, deliveryTime);
-			return pizza;
-		}
-		else if (pizzaCode == "PZV"){			
-			VegetarianPizza pizza = new VegetarianPizza(quantity, deliveryTime, deliveryTime);
-			return pizza;
-		}
-		else{			
-			MeatLoversPizza pizza = new MeatLoversPizza(quantity, deliveryTime, deliveryTime);
-			return pizza;
-		}
 	}
-}

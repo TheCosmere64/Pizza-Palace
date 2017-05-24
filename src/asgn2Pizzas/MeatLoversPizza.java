@@ -45,10 +45,10 @@ public class MeatLoversPizza extends Pizza {
 		else if (quantity < 1){			
 			throw new PizzaException("No pizzas ordered");
 		}
-		else if (orderTime == deliveryTime){			
+		else if (orderTime.equals(deliveryTime)){			
 			throw new PizzaException("Cannot deliver a pizza instantaneously");
 		}
-		else if (orderTime.isBefore(deliveryTime)){			
+		else if (deliveryTime.isBefore(orderTime)){			
 			throw new PizzaException("Cannot deliver pizza before it was ordered");
 		}
 		else if (deliveryTime.getMinute() - orderTime.getMinute() < 10){			

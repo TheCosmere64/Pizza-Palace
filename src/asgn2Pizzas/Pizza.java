@@ -48,17 +48,18 @@ public abstract class Pizza  {
 	 * 
 	 */
 	public Pizza(int quantity, LocalTime orderTime, LocalTime deliveryTime, String type, double price) throws PizzaException{
-	
+		System.out.println(orderTime.toString());
+		System.out.println(deliveryTime.toString());
 	if (quantity > 10) {				
 		throw new PizzaException("Too many pizzas ordered");
 	}
 	else if (quantity < 1){			
 		throw new PizzaException("No pizzas ordered");
 	}
-	else if (orderTime == deliveryTime){			
+	else if (orderTime.equals(deliveryTime)){			
 		throw new PizzaException("Cannot deliver a pizza instantaneously");
 	}
-	else if (orderTime.isBefore(deliveryTime)){			
+	else if (deliveryTime.isBefore(orderTime)){			
 		throw new PizzaException("Cannot deliver pizza before it was ordered");
 	}
 	else if (deliveryTime.getMinute() - orderTime.getMinute() < 10){			
