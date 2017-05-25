@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import javax.swing.text.DefaultCaret;
 
 import asgn2Pizzas.Pizza;
+import asgn2Restaurant.LogHandler;
 import asgn2Restaurant.PizzaRestaurant;
 import java.time.LocalTime;
 import asgn2Exceptions.*;
@@ -44,17 +45,9 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	private JLabel lblTitle;
 	private JLabel descLabel;
 	private JPanel titlePanel = new JPanel();
+	private JPanel tablePanel = new JPanel();
 	private JPanel operationPanel = new JPanel();
 	private JFileChooser logFile = new JFileChooser(new File("logs"));
-	private ArrayList<LocalTime> orderTime = new ArrayList<LocalTime>();
-	private ArrayList<LocalTime> deliveryTime = new ArrayList<LocalTime>();
-	private ArrayList<String> custName = new ArrayList<String>();
-	private ArrayList<Integer> mobile = new ArrayList<Integer>();
-	private ArrayList<String> acquireCode = new ArrayList<String>();
-	private ArrayList<Integer> x_pos = new ArrayList<Integer>();
-	private ArrayList<Integer> y_pos = new ArrayList<Integer>();
-	private ArrayList<String> pizzaCode = new ArrayList<String>();
-	private ArrayList<Integer> quantity = new ArrayList<Integer>();
 	
 	/**
 	 * Creates a new Pizza GUI with the specified title 
@@ -75,44 +68,56 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		operationPanel.add(descLabel);
 		operationPanel.add(logButton);
 		this.add(titlePanel);
-		this.add(operationPanel);
+		this.add(operationPanel);		
 	}
 	
-	private void secondPage(){
+	private void secondPage() throws PizzaException, CustomerException{
 		operationPanel.removeAll();
-		Object[][] data = new Object[custName.size() + 1][9];
-		Object[] column = new Object[]{"","","","","","","","",""};
-		for (int i = 1; i <= custName.size(); i++){
-			
-			data[i][0] = orderTime.get(i - 1);
-			data[i][1] = deliveryTime.get(i - 1);
-			data[i][2] = custName.get(i - 1);
-			data[i][3] = mobile.get(i - 1);
-			data[i][4] = acquireCode.get(i - 1);
-			data[i][5] = x_pos.get(i - 1);
-			data[i][6] = y_pos.get(i - 1);
-			data[i][7] = pizzaCode.get(i - 1);
-			data[i][8] = quantity.get(i - 1);
-			
-		}	
-		data[0][0] = "Order Time";
-		data[0][1] = "Delivery Time";
-		data[0][2] = "Customer Name";
-		data[0][3] = "Mobile Number";
-		data[0][4] = "Method Code";
-		data[0][5] = "X Position";
-		data[0][6] = "Y Position";
-		data[0][7] = "Pizza Code";
-		data[0][8] = "Quantity";
-		JTable nameTable = new JTable(data, column);
-		for (int i = 0; i < mobile.size(); i++){
-			
-			
+		this.remove(operationPanel);
+		logFile.showOpenDialog(null);
+    	try {
+			restaurant.processLog(String.valueOf(logFile.getSelectedFile().getAbsolutePath()));		
+		} catch (CustomerException | PizzaException | LogHandlerException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+		Object[][] custData = new Object[restaurant.getNumCustomerOrders() + 1][10];
+		Object[][] pizzaData = new Object[restaurant.getNumPizzaOrders() + 1][10];
+		Object[] column = new Object[]{"", "", "", "", ""};
+		
+		for (int index = 0; index < restaurant.getNumCustomerOrders(); index++){
+			custData[index + 1][0] = restaurant.getCustomerByIndex(index).getName()	;
+			custData[index + 1][1] = restaurant.getCustomerByIndex(index).getMobileNumber();
+			custData[index + 1][2] = restaurant.getCustomerByIndex(index).getCustomerType();
+			custData[index + 1][3] = restaurant.getCustomerByIndex(index).getLocationX() + " , " + restaurant.getCustomerByIndex(index).getLocationY();
+			custData[index + 1][4] = restaurant.getCustomerByIndex(index).getDeliveryDistance();
+		}
+		for (int index = 0; index < restaurant.getNumPizzaOrders(); index++){
+			restaurant.getPizzaByIndex(index).calculateCostPerPizza();
+			pizzaData[index + 1][0] = restaurant.getPizzaByIndex(index).getPizzaType();
+			pizzaData[index + 1][1] = restaurant.getPizzaByIndex(index).getQuantity();
+			pizzaData[index + 1][2] = restaurant.getPizzaByIndex(index).getOrderPrice();
+			pizzaData[index + 1][3] = restaurant.getPizzaByIndex(index).getOrderCost();
+			pizzaData[index + 1][4] = restaurant.getPizzaByIndex(index).getOrderProfit();
+		}
+			
+		custData[0][0] = "Customer Name";
+		custData[0][1] = "Mobile Number";
+		custData[0][2] = "Customer Type";
+		custData[0][3] = "X,Y position";
+		custData[0][4] = "Delivery Distance";
+		pizzaData[0][0] = "Pizza Type";
+		pizzaData[0][1] = "Quantity";
+		pizzaData[0][2] = "Order Price";
+		pizzaData[0][3] = "Order Cost";
+		pizzaData[0][4] = "Order Profit";
+		JTable custTable = new JTable(custData, column);
+		JTable pizzaTable = new JTable(pizzaData, column);
 		lblTitle.setText("Pizza Palace Order(s) Details");
-		operationPanel.add(nameTable);
+		operationPanel.add(custTable);
+		tablePanel.add(pizzaTable);
 		this.add(operationPanel);
-
+		this.add(tablePanel);
 	}
 	
 	private JButton createButton(String text) {
@@ -126,18 +131,16 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		return label;	
 	} 
 
-	private void storeLogs(JButton button){
+	private void storeLogs(JButton button) throws PizzaException, CustomerException{
 		button.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {	        		 
-	        	logFile.showOpenDialog(null);
-	        	try {
-					restaurant.processLog(String.valueOf(logFile.getSelectedFile().getAbsolutePath()));
-				} catch (CustomerException | PizzaException | LogHandlerException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-	        	secondPage();	
-	         }           
+	        		try {
+						secondPage();
+					} catch (PizzaException | CustomerException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} 
+	         }          
 	     });
 	}
 	

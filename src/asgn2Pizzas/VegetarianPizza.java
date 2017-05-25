@@ -65,14 +65,13 @@ public class VegetarianPizza extends Pizza {
 		else if (orderTime.getHour() >= 23){			
 			throw new PizzaException("Kitchen is now closed");
 		}			
-		setToppings();
-	}
-	private void setToppings(){
-		
+
 		pizzaToppings.add(PizzaTopping.CHEESE);
 		pizzaToppings.add(PizzaTopping.TOMATO);
 		pizzaToppings.add(PizzaTopping.CAPSICUM);
 		pizzaToppings.add(PizzaTopping.EGGPLANT);
 		pizzaToppings.add(PizzaTopping.MUSHROOM);
+		
+		pizzaPrice = 10;
 	}
 }

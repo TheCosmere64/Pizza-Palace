@@ -116,7 +116,6 @@ public abstract class Customer {
 	 */
 	public abstract double getDeliveryDistance();
 
-	
 	/**
 	 * Compares *this* Customer object with an instance of an *other* Customer object and returns true if  
 	 * if the two objects are equivalent, that is, if the values exposed by public methods are equal.

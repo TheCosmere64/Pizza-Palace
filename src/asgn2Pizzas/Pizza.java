@@ -23,7 +23,7 @@ public abstract class Pizza  {
 	protected LocalTime pizzaOrderTime;
 	protected LocalTime pizzaDeliveryTime;
 	private String pizzaType;
-	private double pizzaPrice;
+	protected double pizzaPrice;
 	private double pizzaCost;
 	private double totalCost;
 	private double totalPrice;
@@ -87,7 +87,8 @@ public abstract class Pizza  {
 	 * <P> POST: The cost field is set to sum of the Pizzas's toppings
 	 */
 	public final void calculateCostPerPizza(){
-		for	(int i = 0; i < pizzaToppings.size(); i++){			
+		for	(int i = 0; i < pizzaToppings.size(); i++){	
+			System.out.println(pizzaToppings.size());
 			pizzaCost += pizzaToppings.get(i).getCost();
 		}
 	}
@@ -132,7 +133,7 @@ public abstract class Pizza  {
 	 * @return  Returns the profit made by the restaurant on the order which is the order price minus the order cost.
 	 */
 	public final double getOrderProfit(){
-		profit = pizzaPrice - pizzaCost;
+		profit = totalPrice - totalCost;
 		return profit;
 	}
 	
@@ -143,9 +144,8 @@ public abstract class Pizza  {
 	 * @return Returns  true if the instance of Pizza contains the specified topping and false otherwise.
 	 */
 	public final boolean containsTopping(PizzaTopping topping){		
-		for	(int i = 0; i < pizzaToppings.size(); i++){
-			
-			if (pizzaToppings.get(i) == topping){			
+		for	(int i = 0; i < pizzaToppings.size(); i++){			
+			if (pizzaToppings.get(i).equals(topping)){			
 				return true;
 			}
 		}

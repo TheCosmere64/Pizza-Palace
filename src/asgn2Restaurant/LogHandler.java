@@ -36,7 +36,7 @@ public class LogHandler {
 	 * 
 	 */
 	public static ArrayList<Customer> populateCustomerDataset(String filename) throws CustomerException, LogHandlerException{
-		String line ="";
+		String line = "";
 		ArrayList<Customer> customers = new ArrayList<Customer>();
 		try {
 			BufferedReader theFile = new BufferedReader(new FileReader(filename));
@@ -60,7 +60,6 @@ public class LogHandler {
 	 * 
 	 */
 	public static ArrayList<Pizza> populatePizzaDataset(String filename) throws PizzaException, LogHandlerException{
-		//TO DO
 		String line = "";
 		ArrayList<Pizza> pizzaArray = new ArrayList<Pizza>();
 		try {

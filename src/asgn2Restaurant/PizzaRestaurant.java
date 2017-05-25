@@ -56,8 +56,8 @@ public class PizzaRestaurant {
 	 */
 	public boolean processLog(String filename) throws CustomerException, PizzaException, LogHandlerException{
 		try{	
-			LogHandler.populatePizzaDataset(filename);
-			LogHandler.populateCustomerDataset(filename);
+			pizzas = LogHandler.populatePizzaDataset(filename);
+			customers = LogHandler.populateCustomerDataset(filename);
 			return true;
 		}catch(Exception e) {
 			return false;
@@ -71,7 +71,7 @@ public class PizzaRestaurant {
 	 * @throws CustomerException if index is invalid.
 	 */
 	public Customer getCustomerByIndex(int index) throws CustomerException{
-		if (customers.size() - 1 >= index) {
+		if (customers.size() > index) {
 			return customers.get(index);
 		} else throw new CustomerException("A customer doesn't exist with this index");
 	}
@@ -83,12 +83,9 @@ public class PizzaRestaurant {
 	 * @throws PizzaException if index is invalid.
 	 */	
 	public Pizza getPizzaByIndex(int index) throws PizzaException{
-		try{
-			pizzas.get(index);
-		}catch(Exception e){
-			System.out.println("Pizza index is invalid");
-		}
-		return pizzas.get(index);
+			if (pizzas.size() > index) {
+				return pizzas.get(index);
+		}else throw new PizzaException("A pizza doesn't exist with this index");
 				
 	}
 	
