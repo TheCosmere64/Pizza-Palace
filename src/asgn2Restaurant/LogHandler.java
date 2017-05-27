@@ -45,8 +45,20 @@ public class LogHandler {
 			}
 			theFile.close();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-        	e.printStackTrace();
+			if (e.getClass().getSimpleName().equals("CustomerException")){
+				
+				try {
+					throw e;
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+
+			else if (e.getClass().getSimpleName().equals("LogHandlerException")){
+				
+				throw new LogHandlerException("Error reading the line from the log file");
+			}
 		}
 		return customers;
 	}
@@ -65,13 +77,22 @@ public class LogHandler {
 		try {
 			BufferedReader theFile = new BufferedReader(new FileReader(filename));
 			while ((line = theFile.readLine()) != null) {
-				System.out.println(line);
 				pizzaArray.add(createPizza(line));
 			}
 			theFile.close();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-        	e.printStackTrace();
+			if (e.getClass().getSimpleName().equals("PizzaException")){
+				
+				try {
+					throw e;
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			else if (e.getClass().getSimpleName().equals("LogHandlerException")){			
+				throw new LogHandlerException("Error reading the line from the log file");
+			}
 		}
 		return pizzaArray;
 	}		
@@ -93,7 +114,6 @@ public class LogHandler {
 		int locationX = 0;
 		int locationY = 0;
 		try{
-		System.out.println(line);
 			String[] variables = line.split(",");
 			customerName = variables[2];
 			customerMobile = variables[3];
@@ -131,11 +151,21 @@ public class LogHandler {
 			deliveryTime.format(DateTimeFormatter.ISO_LOCAL_TIME);
 			pizzaCode = variable[7];			
 		} catch (Exception e) {
-			throw new LogHandlerException("Error parsing the line from the log file");
+			if (e.getClass().getSimpleName().equals("LogHandlerException")){
+				
+				throw new LogHandlerException("Error parsing the line from the log file");
+			}
+			else{				
+				throw e;
+			}		
 		}
-		System.out.println(orderTime.toString());
-		System.out.println(deliveryTime.toString());
-		pizza = PizzaFactory.getPizza(pizzaCode, quantity, orderTime, deliveryTime);
+		try{
+			pizza = PizzaFactory.getPizza(pizzaCode, quantity, orderTime, deliveryTime);			
+		}catch (Exception e){
+			
+			System.out.println("1");
+			throw e;
+		}
 		return pizza;
 	}
 

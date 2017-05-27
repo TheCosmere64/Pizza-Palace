@@ -30,7 +30,6 @@ public class PizzaFactory {
 	 * @return A valid Pizza object using the specified parameters 
 	 * */
 	public static Pizza getPizza(String pizzaCode, int quantity, LocalTime orderTime, LocalTime deliveryTime) throws PizzaException{		
-		
 		System.out.println(orderTime.toString());
 		System.out.println(deliveryTime.toString());
 		if (quantity > 10) {			
@@ -45,7 +44,7 @@ public class PizzaFactory {
 		else if (deliveryTime.isBefore(orderTime)){			
 			throw new PizzaException("Cannot deliver pizza before it was ordered");
 		}
-		else if (deliveryTime.getMinute() - orderTime.getMinute() < 10){
+		else if ((((deliveryTime.getHour() - orderTime.getHour()) * 60) + deliveryTime.getMinute()) - orderTime.getMinute() < 10){
 			throw new PizzaException("Must allow 10 minutes to cook pizza");
 		}
 		else if (deliveryTime.getHour() - orderTime.getHour() > 1){
