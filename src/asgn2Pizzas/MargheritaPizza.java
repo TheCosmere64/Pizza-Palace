@@ -16,9 +16,7 @@ import asgn2Exceptions.PizzaException;
  * @author Person A
  *
  */
-public class MargheritaPizza extends Pizza {
-
-	private List<PizzaTopping> toppings = new ArrayList<PizzaTopping>();	
+public class MargheritaPizza extends Pizza {	
 
 	/**
 	 * 
@@ -52,7 +50,7 @@ public class MargheritaPizza extends Pizza {
 		else if (deliveryTime.isBefore(orderTime)){			
 			throw new PizzaException("Cannot deliver pizza before it was ordered");
 		}
-		else if (deliveryTime.getMinute() - orderTime.getMinute() < 10){			
+		else if (((deliveryTime.getHour() - orderTime.getHour()) * 60) + deliveryTime.getMinute() < 10){			
 			throw new PizzaException("Must allow 10 minutes to cook pizza");
 		}
 		else if (deliveryTime.getHour() - orderTime.getHour() > 1){			

@@ -37,16 +37,19 @@ import javax.swing.*;
  */
 public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionListener {
 	
-	
 	private PizzaRestaurant restaurant = new PizzaRestaurant();
-	private Pizza pizzaMethod;
-	private JFrame GUIframe;
-	private JButton logButton = new JButton();
+	private JButton logButton;
+	private JButton calcDispButton;
+	private JButton resetButton;
 	private JLabel lblTitle;
 	private JLabel descLabel;
+	private JLabel errorDesc;
 	private JPanel titlePanel = new JPanel();
-	private JPanel tablePanel = new JPanel();
 	private JPanel operationPanel = new JPanel();
+	private JPanel calculationPanel = new JPanel();
+	private JPanel resetPanel = new JPanel();
+	private JTextField totalProfit;
+	private JTextField totalDistance;
 	private JFileChooser logFile = new JFileChooser(new File("logs"));
 	
 	/**
@@ -56,30 +59,36 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	public PizzaGUI(String title) throws LogHandlerException, PizzaException, CustomerException{
 		super(title);		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		logFile.setDialogTitle("do it");
-		logFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		this.setLayout(new GridLayout(0,1));
 		lblTitle = createLabel("Pizza Palace Order Reciever");
 		descLabel = createLabel("Import Order Log File");
 		logButton = createButton("Import Log File");
+		logFile.setDialogTitle("Select log file to read");
+		logFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		storeLogs(logButton);
-		this.setSize(700, 600);
+		this.setSize(800, 500);
 		titlePanel.add(lblTitle);
 		operationPanel.add(descLabel);
 		operationPanel.add(logButton);
 		this.add(titlePanel);
-		this.add(operationPanel);		
+		this.add(operationPanel);
 	}
 	
 	private void secondPage() throws PizzaException, CustomerException{
+		repaint();
 		operationPanel.removeAll();
 		this.remove(operationPanel);
 		logFile.showOpenDialog(null);
-    	try {
-			restaurant.processLog(String.valueOf(logFile.getSelectedFile().getAbsolutePath()));		
-		} catch (CustomerException | PizzaException | LogHandlerException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		try {
+			restaurant.processLog(String.valueOf(logFile.getSelectedFile().getAbsolutePath()));
+		} catch (Exception e) {
+			try {
+				System.out.println("4");
+				throw e;
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		Object[][] custData = new Object[restaurant.getNumCustomerOrders() + 1][10];
 		Object[][] pizzaData = new Object[restaurant.getNumPizzaOrders() + 1][10];
@@ -94,13 +103,16 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		}
 		for (int index = 0; index < restaurant.getNumPizzaOrders(); index++){
 			restaurant.getPizzaByIndex(index).calculateCostPerPizza();
+			try{
 			pizzaData[index + 1][0] = restaurant.getPizzaByIndex(index).getPizzaType();
 			pizzaData[index + 1][1] = restaurant.getPizzaByIndex(index).getQuantity();
 			pizzaData[index + 1][2] = restaurant.getPizzaByIndex(index).getOrderPrice();
 			pizzaData[index + 1][3] = restaurant.getPizzaByIndex(index).getOrderCost();
 			pizzaData[index + 1][4] = restaurant.getPizzaByIndex(index).getOrderProfit();
-		}
-			
+			}catch(Exception e){
+				lblTitle.setText(e.getMessage());
+			}
+		}			
 		custData[0][0] = "Customer Name";
 		custData[0][1] = "Mobile Number";
 		custData[0][2] = "Customer Type";
@@ -114,10 +126,48 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		JTable custTable = new JTable(custData, column);
 		JTable pizzaTable = new JTable(pizzaData, column);
 		lblTitle.setText("Pizza Palace Order(s) Details");
+		operationPanel.add(pizzaTable);
 		operationPanel.add(custTable);
-		tablePanel.add(pizzaTable);
+
 		this.add(operationPanel);
-		this.add(tablePanel);
+		calcDispButton = createButton("Show Calculations");
+		dispCalcButton(calcDispButton);
+		calculationPanel.add(calcDispButton);
+		this.add(calculationPanel);
+	}
+	
+	private void thirdScreen(){	
+		repaint();
+		calculationPanel.removeAll();
+		this.remove(calculationPanel);
+		lblTitle.setText("Pizza Palace Order(s) Details ");
+		totalProfit = new JTextField();
+		totalDistance = new JTextField();
+		totalProfit.setText(String.valueOf(restaurant.getTotalProfit()));
+		totalDistance.setText(String.valueOf(restaurant.getTotalDeliveryDistance()));
+		JLabel profitDesc = createLabel("Total Profit Made");
+		JLabel distanceDesc = createLabel("Total Distance Travelled");
+		resetButton = createButton("Reset all values");
+		calculationPanel.add(profitDesc);
+		calculationPanel.add(totalProfit);
+		calculationPanel.add(distanceDesc);
+		calculationPanel.add(totalDistance);
+		resetPanel.add(resetButton);
+		resetActivity(resetButton);
+		this.add(calculationPanel);
+		this.add(resetPanel);
+	}
+	
+	private void resetPage() throws PizzaException, CustomerException{
+		restaurant.resetDetails();
+		operationPanel.removeAll();
+		calculationPanel.removeAll();
+		resetPanel.removeAll();
+		this.remove(calculationPanel);
+		this.remove(resetPanel);
+		lblTitle.setText("Pizza Palace Order Reciever");
+		operationPanel.add(logButton);		
+		repaint();
 	}
 	
 	private JButton createButton(String text) {
@@ -133,15 +183,36 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 
 	private void storeLogs(JButton button) throws PizzaException, CustomerException{
 		button.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e){	        		 
+				try {
+					secondPage();
+				} catch (PizzaException | CustomerException e1) {
+					// TODO Auto-generated catch block
+					System.out.println("5");
+				}	
+	         }         
+	     });
+	}
+	
+	private void resetActivity(JButton button){
+		button.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {	        		 
-	        		try {
-						secondPage();
+					try {
+						resetPage();
 					} catch (PizzaException | CustomerException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
-					} 
-	         }          
+					}	     		
+	         }         
 	     });
+	}
+	
+	private void dispCalcButton(JButton button){		
+		button.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e) {        	 
+	        	 thirdScreen();
+	         }
+		});
 	}
 	
 	@Override
