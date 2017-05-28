@@ -54,21 +54,14 @@ public class PizzaRestaurant {
 	 * @throws LogHandlerException If there was a problem with the log file not related to the semantic errors above (passed by another class).
      *
 	 */
-	public boolean processLog(String filename) throws CustomerException, PizzaException, LogHandlerException{	
-			try {
-				pizzas = LogHandler.populatePizzaDataset(filename);
-				customers = LogHandler.populateCustomerDataset(filename);
-				return true;
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				if (e.getClass().getSimpleName().equals("LogHandlerException")){
-					
-					throw new LogHandlerException("Error reading the log file");
-				}
-				else{
-					throw e;
-				}
-			}	
+	public boolean processLog(String filename) throws CustomerException, PizzaException, LogHandlerException{
+		try{	
+			pizzas = LogHandler.populatePizzaDataset(filename);
+			customers = LogHandler.populateCustomerDataset(filename);
+			return true;
+		}catch(Exception e) {
+			return false;
+		}		
 	}
 
 	/**
