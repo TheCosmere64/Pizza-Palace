@@ -59,7 +59,6 @@ public class LogHandler {
 	 * 
 	 */
 	public static ArrayList<Pizza> populatePizzaDataset(String filename) throws PizzaException, LogHandlerException{
-		//TO DO
 		ArrayList<Pizza> pizzaArray = new ArrayList<Pizza>();
 		try {
 			BufferedReader theFile = new BufferedReader(new FileReader(filename));
@@ -90,15 +89,16 @@ public class LogHandler {
 		String customerCode = null;
 		int locationX = 0;
 		int locationY = 0;
-		try{
+		try {
 			String[] variables = line.split(",");
-		customerName = variables[2];
-		customerMobile = variables[3];
-		customerCode = variables[4];
-		locationX = Integer.parseInt(variables[5]);
-		locationY = Integer.parseInt(variables[6]);
-		}catch (Exception e){
-			throw new LogHandlerException("Error parsing the line from the log file");
+			customerName = variables[2];
+			customerMobile = variables[3];
+			customerCode = variables[4];
+			locationX = Integer.parseInt(variables[5]);
+			locationY = Integer.parseInt(variables[6]);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+        	e.printStackTrace();
 		}
 		
 		customer = CustomerFactory.getCustomer(customerCode, customerName, customerMobile, locationX, locationY);

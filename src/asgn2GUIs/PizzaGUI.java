@@ -66,7 +66,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		super(title);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		logFile.setCurrentDirectory(new java.io.File("C:/Users/narut/Desktop/Log Files"));
-		logFile.setDialogTitle("do it");
+		logFile.setDialogTitle("Choose the log file");
 		logFile.setFileSelectionMode(JFileChooser.OPEN_DIALOG);
 		this.setLayout(new GridLayout(0,1));
 		lblTitle = createLabel("Pizza Palace Order Reciever");
