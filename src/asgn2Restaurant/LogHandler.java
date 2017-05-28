@@ -3,6 +3,7 @@ package asgn2Restaurant;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -36,30 +37,30 @@ public class LogHandler {
 	 * 
 	 */
 	public static ArrayList<Customer> populateCustomerDataset(String filename) throws CustomerException, LogHandlerException{
-		String line = "";
 		ArrayList<Customer> customers = new ArrayList<Customer>();
-		try {
-			BufferedReader theFile = new BufferedReader(new FileReader(filename));
-			while ((line = theFile.readLine()) != null) {
-				customers.add(createCustomer(line));
-			}
-			theFile.close();
-		} catch (Exception e) {
-			if (e.getClass().getSimpleName().equals("CustomerException")){
-				
-				try {
-					throw e;
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+			try {
+				BufferedReader theFile = new BufferedReader(new FileReader(filename));
+				while ((theFile.readLine()) != null) {
+					String[] variables = theFile.readLine().split(",");
+					if (!variables[0].matches("\\d{2}:\\d{2}:\\d{2}") || !variables[1].matches("\\d{2}:\\d{2}:\\d{2}")) {
+						throw new CustomerException("The customers order time or delivery time contains semantic errors");
+					} else if (variables[2] == "" || !variables[3].matches("([0-9])+")) {
+						throw new CustomerException("The customers mobile or name contains semantic errors");
+					} else if (!variables[4].equals("PUC") && !variables[4].equals("DNC") && !variables[4].equals("DVC")) {
+						throw new CustomerException("The delivery type contains semantic errors");
+					} else if (!variables[5].matches("([0-9])+") || !variables[6].matches("([0-9])+")) {
+						throw new CustomerException("The customer's X or Y location contains semantic errors");
+					} else {
+						System.out.println("hello" + variables[0]);
+						customers.add(createCustomer(theFile.readLine()));
+					}
+					System.out.println(variables[4]);
 				}
+				theFile.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-
-			else if (e.getClass().getSimpleName().equals("LogHandlerException")){
-				
-				throw new LogHandlerException("Error reading the line from the log file");
-			}
-		}
 		return customers;
 	}
 

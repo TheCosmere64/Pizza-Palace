@@ -54,21 +54,16 @@ public class PizzaRestaurant {
 	 * @throws LogHandlerException If there was a problem with the log file not related to the semantic errors above (passed by another class).
      *
 	 */
-	public boolean processLog(String filename) throws CustomerException, PizzaException, LogHandlerException{	
-			try {
-				pizzas = LogHandler.populatePizzaDataset(filename);
-				customers = LogHandler.populateCustomerDataset(filename);
-				return true;
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				if (e.getClass().getSimpleName().equals("LogHandlerException")){
-					
-					throw new LogHandlerException("Error reading the log file");
-				}
-				else{
-					throw e;
-				}
-			}	
+	public boolean processLog(String filename) throws CustomerException, PizzaException, LogHandlerException{
+		try {
+			customers = LogHandler.populateCustomerDataset(filename);
+			pizzas = LogHandler.populatePizzaDataset(filename);
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+        	e.printStackTrace();
+        	return false;
+		}
+		return true;
 	}
 
 	/**
@@ -78,7 +73,7 @@ public class PizzaRestaurant {
 	 * @throws CustomerException if index is invalid.
 	 */
 	public Customer getCustomerByIndex(int index) throws CustomerException{
-		if (customers.size() > index) {
+		if (customers.size() - 1 >= index) {
 			return customers.get(index);
 		} else throw new CustomerException("A customer doesn't exist with this index");
 	}
@@ -90,9 +85,12 @@ public class PizzaRestaurant {
 	 * @throws PizzaException if index is invalid.
 	 */	
 	public Pizza getPizzaByIndex(int index) throws PizzaException{
-			if (pizzas.size() > index) {
-				return pizzas.get(index);
-		}else throw new PizzaException("A pizza doesn't exist with this index");
+		try{
+			pizzas.get(index);
+		}catch(Exception e){
+			System.out.println("Pizza index is invalid");
+		}
+		return pizzas.get(index);
 				
 	}
 	
@@ -137,10 +135,9 @@ public class PizzaRestaurant {
 	 * @return the total profit for all of the Pizza objects in the pizzas field.
 	 */	
 	public double getTotalProfit(){
-		double totalProfit = 0;
-		for(int pizza = 0; pizza < pizzas.size(); pizza++){
-			
-			totalProfit += pizzas.get(pizza).getOrderProfit();
+		int totalProfit = 0;
+		for (Pizza pizza: pizzas) {
+			totalProfit += pizza.getOrderProfit();
 		}
 		return totalProfit;
 	}
