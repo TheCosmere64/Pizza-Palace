@@ -48,8 +48,6 @@ public abstract class Pizza  {
 	 * 
 	 */
 	public Pizza(int quantity, LocalTime orderTime, LocalTime deliveryTime, String type, double price) throws PizzaException{
-		System.out.println(orderTime.toString());
-		System.out.println(deliveryTime.toString());
 	if (quantity > 10) {				
 		throw new PizzaException("Too many pizzas ordered");
 	}
@@ -89,7 +87,6 @@ public abstract class Pizza  {
 	 */
 	public final void calculateCostPerPizza(){
 		for	(int i = 0; i < pizzaToppings.size(); i++){	
-			System.out.println(pizzaToppings.size());
 			pizzaCost += pizzaToppings.get(i).getCost();
 		}
 	}

@@ -59,8 +59,11 @@ public class PizzaRestaurant {
 			customers = LogHandler.populateCustomerDataset(filename);
 			pizzas = LogHandler.populatePizzaDataset(filename);
 		} catch(Exception e) {
+			if (e.getClass().getSimpleName() == "LogHandlerException"){
+				
+				throw new LogHandlerException();
+			}
 			System.out.println(e.getMessage());
-        	e.printStackTrace();
         	return false;
 		}
 		return true;

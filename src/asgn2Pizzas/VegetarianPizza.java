@@ -38,8 +38,6 @@ public class VegetarianPizza extends Pizza {
 	public VegetarianPizza(int quantity, LocalTime orderTime, LocalTime deliveryTime) throws PizzaException {
 		
 		super(quantity, orderTime, deliveryTime, "Vegetarian", 10);
-		System.out.println(orderTime.toString());
-		System.out.println(deliveryTime.toString());
 		
 		if (quantity > 10) {			
 			throw new PizzaException("Too many pizzas ordered");

@@ -30,8 +30,6 @@ public class PizzaFactory {
 	 * @return A valid Pizza object using the specified parameters 
 	 * */
 	public static Pizza getPizza(String pizzaCode, int quantity, LocalTime orderTime, LocalTime deliveryTime) throws PizzaException{		
-		System.out.println(orderTime.toString());
-		System.out.println(deliveryTime.toString());
 		if (quantity > 10) {			
 			throw new PizzaException("Too many pizzas ordered");
 		}
