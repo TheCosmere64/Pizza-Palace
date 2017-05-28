@@ -51,6 +51,12 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	private JPanel resetPanel = new JPanel();
 	private JTextField totalProfit;
 	private JTextField totalDistance;
+	JScrollPane pizzaScroll;
+	JScrollPane custScroll;
+	JTable custTable;
+	JTable pizzaTable;
+	DefaultTableModel custModel;
+	DefaultTableModel pizzaModel;
 	private JFileChooser logFile = new JFileChooser(new File("logs"));
 	
 	/**
@@ -89,12 +95,12 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 			
 			Object[][] custData = new Object[1][5];
 			Object[][] pizzaData = new Object[1][5];
-			DefaultTableModel custModel = new DefaultTableModel(custData,custHeader);
-			DefaultTableModel pizzaModel = new DefaultTableModel(pizzaData,pizzaHeader);
-			JTable custTable = new JTable(custModel);
-			JTable pizzaTable = new JTable(pizzaModel);
-			JScrollPane custScroll = new JScrollPane(custTable);
-			JScrollPane pizzaScroll = new JScrollPane(pizzaTable);
+			custModel = new DefaultTableModel(custData,custHeader);
+			pizzaModel = new DefaultTableModel(pizzaData,pizzaHeader);
+			custTable = new JTable(custModel);
+			pizzaTable = new JTable(pizzaModel);
+			custScroll = new JScrollPane(custTable);
+			pizzaScroll = new JScrollPane(pizzaTable);
 			lblTitle.setText("Pizza Palace Order(s) Details");
 			this.add(custScroll);
 			this.add(pizzaScroll);		
@@ -119,10 +125,10 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 				pizzaData[index][3] = restaurant.getPizzaByIndex(index).getOrderCost();
 				pizzaData[index][4] = restaurant.getPizzaByIndex(index).getOrderProfit();
 			}
-			DefaultTableModel custModel = new DefaultTableModel(custData,custHeader);
-			DefaultTableModel pizzaModel = new DefaultTableModel(pizzaData,pizzaHeader);
-			JTable custTable = new JTable(custModel);
-			JTable pizzaTable = new JTable(pizzaModel);
+			custModel = new DefaultTableModel(custData,custHeader);
+			pizzaModel = new DefaultTableModel(pizzaData,pizzaHeader);
+			custTable = new JTable(custModel);
+			pizzaTable = new JTable(pizzaModel);
 			custData[0][0] = "Customer Name";
 			custData[0][1] = "Mobile Number";
 			custData[0][2] = "Customer Type";
@@ -133,8 +139,8 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 			pizzaData[0][2] = "Order Price";
 			pizzaData[0][3] = "Order Cost";
 			pizzaData[0][4] = "Order Profit";
-			JScrollPane custScroll = new JScrollPane(custTable);
-			JScrollPane pizzaScroll = new JScrollPane(pizzaTable);
+			custScroll = new JScrollPane(custTable);
+			pizzaScroll = new JScrollPane(pizzaTable);
 			lblTitle.setText("Pizza Palace Order(s) Details");
 			this.add(custScroll);
 			this.add(pizzaScroll);
@@ -171,7 +177,8 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	
 	private void resetPage() throws PizzaException, CustomerException{
 		restaurant.resetDetails();
-		operationPanel.removeAll();
+		this.remove(custScroll);
+		this.remove(pizzaScroll);
 		calculationPanel.removeAll();
 		resetPanel.removeAll();
 		this.remove(calculationPanel);

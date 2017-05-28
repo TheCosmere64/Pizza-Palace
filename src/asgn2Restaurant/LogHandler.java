@@ -39,45 +39,22 @@ public class LogHandler {
 	public static ArrayList<Customer> populateCustomerDataset(String filename) throws CustomerException, LogHandlerException{
 		String line = "";
 		ArrayList<Customer> customers = new ArrayList<Customer>();
-<<<<<<< HEAD
 		try {
 			BufferedReader theFile = new BufferedReader(new FileReader(filename));
 			while ((line = theFile.readLine()) != null) {
-				customers.add(createCustomer(line));
+					customers.add(createCustomer(line));
 			}
 			theFile.close();
-		} catch (Exception e) {
-			if (e.getClass().getSimpleName().equals("CustomerException")){
-				
+			} catch (Exception e) {
+				if (e.getClass().getSimpleName().equals("CustomerException")){
+					
 					throw new CustomerException();
-=======
-			try {
-				BufferedReader theFile = new BufferedReader(new FileReader(filename));
-				while ((theFile.readLine()) != null) {
-					String[] variables = theFile.readLine().split(",");
-					if (!variables[0].matches("\\d{2}:\\d{2}:\\d{2}") || !variables[1].matches("\\d{2}:\\d{2}:\\d{2}")) {
-						throw new CustomerException("The customers order time or delivery time contains semantic errors");
-					} else if (variables[2] == "" || !variables[3].matches("([0-9])+")) {
-						throw new CustomerException("The customers mobile or name contains semantic errors");
-					} else if (!variables[4].equals("PUC") && !variables[4].equals("DNC") && !variables[4].equals("DVC")) {
-						throw new CustomerException("The delivery type contains semantic errors");
-					} else if (!variables[5].matches("([0-9])+") || !variables[6].matches("([0-9])+")) {
-						throw new CustomerException("The customer's X or Y location contains semantic errors");
-					} else {
-						customers.add(createCustomer(theFile.readLine()));
-					}
 				}
-				theFile.close();
-			} catch (IOException e) {
-				e.getMessage();
-				e.printStackTrace();
->>>>>>> origin/master
+				else if (e.getClass().getSimpleName().equals("LogHandlerException")){
+					
+					throw new LogHandlerException("Error reading the line from the log file");
+				}
 			}
-			else if (e.getClass().getSimpleName().equals("LogHandlerException")){
-				
-				throw new LogHandlerException("Error reading the line from the log file");
-			}
-		}
 		return customers;
 	}
 
@@ -90,34 +67,23 @@ public class LogHandler {
 	 * 
 	 */
 	public static ArrayList<Pizza> populatePizzaDataset(String filename) throws PizzaException, LogHandlerException{
-		ArrayList<Pizza> pizzaArray = new ArrayList<Pizza>();
+		String line = "";
+		ArrayList<Pizza> pizzas = new ArrayList<Pizza>();
 		try {
 			BufferedReader theFile = new BufferedReader(new FileReader(filename));
-			while (theFile.readLine() != null) {
-				String[] variables = theFile.readLine().split(",");
-				if (!variables[7].equals("PZM") && !variables[7].equals("PZV") && !variables[7].equals("PZL")) {
-					throw new PizzaException("The pizza code contains semantic errors");
-				} else if (!variables[8].matches("([0-9])+")) {
-					throw new PizzaException("The amount of pizzas contains semantic errors");
-				} else {
-					pizzaArray.add(createPizza(theFile.readLine()));
-				}
-			}
-			theFile.close();
+			while ((line = theFile.readLine()) != null) {
+				pizzas.add(createPizza(line));
+		}
+		theFile.close();
 		} catch (Exception e) {
-<<<<<<< HEAD
 			if (e.getClass().getSimpleName().equals("LogHandlerException")){			
 				throw new LogHandlerException("Error reading the line from the log file");
 			}
 			else if (e.getClass().getSimpleName().equals("PizzaException")){			
 				throw new PizzaException(e.getMessage());
 			}
-=======
-			e.getMessage();
-			e.printStackTrace();
->>>>>>> origin/master
 		}
-		return pizzaArray;
+		return pizzas;
 	}		
 
 	
