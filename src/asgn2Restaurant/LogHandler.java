@@ -51,14 +51,12 @@ public class LogHandler {
 					} else if (!variables[5].matches("([0-9])+") || !variables[6].matches("([0-9])+")) {
 						throw new CustomerException("The customer's X or Y location contains semantic errors");
 					} else {
-						System.out.println("hello" + variables[0]);
 						customers.add(createCustomer(theFile.readLine()));
 					}
-					System.out.println(variables[4]);
 				}
 				theFile.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				e.getMessage();
 				e.printStackTrace();
 			}
 		return customers;
@@ -73,27 +71,23 @@ public class LogHandler {
 	 * 
 	 */
 	public static ArrayList<Pizza> populatePizzaDataset(String filename) throws PizzaException, LogHandlerException{
-		String line = "";
 		ArrayList<Pizza> pizzaArray = new ArrayList<Pizza>();
 		try {
 			BufferedReader theFile = new BufferedReader(new FileReader(filename));
-			while ((line = theFile.readLine()) != null) {
-				pizzaArray.add(createPizza(line));
+			while (theFile.readLine() != null) {
+				String[] variables = theFile.readLine().split(",");
+				if (!variables[7].equals("PZM") && !variables[7].equals("PZV") && !variables[7].equals("PZL")) {
+					throw new PizzaException("The pizza code contains semantic errors");
+				} else if (!variables[8].matches("([0-9])+")) {
+					throw new PizzaException("The amount of pizzas contains semantic errors");
+				} else {
+					pizzaArray.add(createPizza(theFile.readLine()));
+				}
 			}
 			theFile.close();
 		} catch (Exception e) {
-			if (e.getClass().getSimpleName().equals("PizzaException")){
-				
-				try {
-					throw e;
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-			else if (e.getClass().getSimpleName().equals("LogHandlerException")){			
-				throw new LogHandlerException("Error reading the line from the log file");
-			}
+			e.getMessage();
+			e.printStackTrace();
 		}
 		return pizzaArray;
 	}		
