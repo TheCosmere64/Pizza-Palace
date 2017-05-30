@@ -53,10 +53,11 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	private JPanel operationPanel = new JPanel();
 	private JPanel calculationPanel = new JPanel();
 	private JPanel resetPanel = new JPanel();
+	private JPanel errorPanel = new JPanel();
 	private JTextField totalProfit;
 	private JTextField totalDistance;
-	JScrollPane pizzaScroll;
-	JScrollPane custScroll;
+	JScrollPane pizzaScroll = new JScrollPane();
+	JScrollPane custScroll = new JScrollPane();
 	JTable custTable;
 	JTable pizzaTable;
 	DefaultTableModel custModel;
@@ -138,6 +139,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 				restaurant.resetDetails();
 				operationPanel.removeAll();
 				calculationPanel.removeAll();
+				errorPanel.removeAll();
 				if(pizzaScroll.isDisplayable()){
 					remove(pizzaScroll);
 				}
@@ -211,6 +213,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 			totalProfitButton(displayProfitButton);
 			calculationPanel.add(displayDistanceButton);
 			calculationPanel.add(displayProfitButton);
+			errorDesc = createLabel("All operations have been completed successfully");
 			add(calculationPanel);	
 			pizzaTableSetup();
 			customerTableSetup();
@@ -224,13 +227,14 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 			}
 			else{				
 				errorDesc = createLabel(e.getClass().getSimpleName());
-			}		
-			operationPanel.add(errorDesc);
+			}
 		}
+		errorPanel.add(errorDesc);
  		resetButton = createButton("Reset all values");
  		resetPanel.add(resetButton);
  		resetPage(resetButton);
  		add(resetPanel);
+ 		add(errorPanel);
 		revalidate();
 	}
 	
