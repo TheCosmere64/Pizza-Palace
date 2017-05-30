@@ -40,10 +40,14 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	
 	private PizzaRestaurant restaurant = new PizzaRestaurant();
 	private JButton logButton;
-	private JButton calcDispButton;
+	private JButton displayDistanceButton;
+	private JButton displayProfitButton;
 	private JButton resetButton;
 	private JLabel lblTitle;
-	private JLabel descLabel;
+	private JLabel custDescLabel;
+	private JLabel pizzaDescLabel;
+	private JButton custTableButton;
+	private JButton pizzaTableButton;
 	private JLabel errorDesc;
 	private JPanel titlePanel = new JPanel();
 	private JPanel operationPanel = new JPanel();
@@ -68,48 +72,173 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(new GridLayout(0,1));
 		Font titleFont = new Font("Serif", Font.BOLD, 25);
-		lblTitle = createLabel("Pizza Palace Order Reciever");
+		lblTitle = createLabel("Pizza Palace Order Processor");
 		lblTitle.setFont(titleFont);
 		lblTitle.setForeground(Color.RED);
-		descLabel = createLabel("Import Order Log File");
-		logButton = createButton("Import Log File");
 		logFile.setDialogTitle("Select log file to read");
 		logFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-		storeLogs(logButton);
 		this.setSize(800, 700);
 		titlePanel.add(lblTitle);
-		operationPanel.add(descLabel);
+		logButton = createButton("Select Log File");
+		logReadActivity(logButton);
 		operationPanel.add(logButton);
 		this.add(titlePanel);
 		this.add(operationPanel);
 	}
 	
-	private void secondPage() throws PizzaException, CustomerException, LogHandlerException{
-		repaint();
-		operationPanel.removeAll();
-		this.remove(operationPanel);
+	private void customerTableDisplay(JButton button) throws PizzaException, CustomerException, LogHandlerException{
+		button.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e){	        		 
+					remove(operationPanel);
+					remove(calculationPanel);
+					remove(resetPanel);
+					add(custScroll);
+					add(operationPanel);
+					add(calculationPanel);
+					add(resetPanel);
+					operationPanel.remove(custTableButton);
+					operationPanel.remove(custDescLabel);
+					revalidate();	
+	         }         
+	     });
+	}
+	
+	private void pizzaTableDisplay(JButton button) throws PizzaException, CustomerException, LogHandlerException{
+		button.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e){	        		 
+					remove(operationPanel);
+					remove(calculationPanel);
+					remove(resetPanel);
+					add(pizzaScroll);
+					add(operationPanel);
+					add(calculationPanel);
+					add(resetPanel);
+					operationPanel.remove(pizzaTableButton);
+					operationPanel.remove(pizzaDescLabel);
+					revalidate();	
+	         }         
+	     });
+	}
+	
+	private void logReadActivity(JButton button) throws PizzaException, CustomerException, LogHandlerException{
+		button.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e){	        		 
+				try {
+					loadLog();
+				} catch (PizzaException | CustomerException | LogHandlerException e1) {
+					
+				}	
+	         }         
+	     });
+	}
+	
+	private void resetPage(JButton button){
+		button.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e) {
+				restaurant.resetDetails();
+				operationPanel.removeAll();
+				calculationPanel.removeAll();
+				if(pizzaScroll.isDisplayable()){
+					remove(pizzaScroll);
+				}
+				if(custScroll.isDisplayable()){
+					remove(custScroll);
+				}
+				resetPanel.removeAll();
+				remove(calculationPanel);
+				remove(resetPanel);
+				operationPanel.add(logButton);
+				repaint();
+				revalidate();     		
+	         }         
+	     });
+	}
+	
+	private void totalDistanceButton(JButton button){		
+		button.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e) {        	 
+	        	calculationPanel.remove(displayDistanceButton);
+	     		totalDistance = new JTextField();
+	     		totalDistance.setText(String.valueOf(restaurant.getTotalDeliveryDistance()));
+	     		JLabel distanceDesc = createLabel("Total Distance Travelled");
+	     		calculationPanel.add(distanceDesc);
+	     		calculationPanel.add(totalDistance);
+	     		add(calculationPanel);
+	     		add(resetPanel);
+	     		repaint();
+	     		revalidate();
+	         }
+		});
+	}
+	
+	private void totalProfitButton(JButton button){		
+		button.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e) {        	 
+	        	calculationPanel.remove(displayProfitButton);
+	     		totalProfit = new JTextField();
+	     		totalProfit.setText(String.valueOf(restaurant.getTotalProfit()));
+	     		JLabel profitDesc = createLabel("Total Profit Made");
+	     		calculationPanel.add(profitDesc);
+	     		calculationPanel.add(totalProfit);
+	     		add(calculationPanel);
+	     		add(resetPanel);
+	     		repaint();
+	     		revalidate();
+	         }
+		});
+	}
+	
+	private void loadLog() throws PizzaException, CustomerException, LogHandlerException{
 		logFile.showOpenDialog(null);
-		String [] custHeader = {"Customer Name","Mobile Number","Customer Type","X,Y position","Delivery Distance"};
-		String [] pizzaHeader = {"Pizza Type","Quantity","Order Price","Order Cost","Order Profit"};
-		if(!restaurant.processLog(String.valueOf(logFile.getSelectedFile().getAbsolutePath()))){
-			
-			Object[][] custData = new Object[1][5];
-			Object[][] pizzaData = new Object[1][5];
-			custModel = new DefaultTableModel(custData,custHeader);
-			pizzaModel = new DefaultTableModel(pizzaData,pizzaHeader);
-			custTable = new JTable(custModel);
-			pizzaTable = new JTable(pizzaModel);
-			custScroll = new JScrollPane(custTable);
-			pizzaScroll = new JScrollPane(pizzaTable);
+		repaint();
+		try{
+			restaurant.processLog(String.valueOf(logFile.getSelectedFile().getAbsolutePath()));
+			operationPanel.removeAll();	
 			lblTitle.setText("Pizza Palace Order(s) Details");
-			this.add(custScroll);
-			this.add(pizzaScroll);		
+			custDescLabel = createLabel("Display Customer Table");
+			custTableButton = createButton("Get Customer Info");
+			pizzaDescLabel = createLabel("Display Pizza Table");
+			pizzaTableButton = createButton("Get Pizza Info");
+			customerTableDisplay(custTableButton);
+			pizzaTableDisplay(pizzaTableButton);
+			operationPanel.add(custDescLabel);
+			operationPanel.add(custTableButton);
+			operationPanel.add(pizzaDescLabel);
+			operationPanel.add(pizzaTableButton);
+			displayDistanceButton = createButton("Total Distance Travelled");
+			displayProfitButton = createButton("Total Profit Made");
+			totalDistanceButton(displayDistanceButton);
+			totalProfitButton(displayProfitButton);
+			calculationPanel.add(displayDistanceButton);
+			calculationPanel.add(displayProfitButton);
+			add(calculationPanel);	
+			pizzaTableSetup();
+			customerTableSetup();
+		}catch(Exception e){
+			operationPanel.removeAll();
+			if(e.getClass().getSimpleName().equals("PizzaException") || e.getClass().getSimpleName().equals("CustomerException")){				
+				errorDesc = createLabel(e.getMessage());
+			}
+			else if(e.getClass().getSimpleName().equals("LogHandlerException")){				
+				errorDesc = createLabel("There was an error reading the log file");
+			}
+			else{				
+				errorDesc = createLabel(e.getClass().getSimpleName());
+			}		
+			operationPanel.add(errorDesc);
 		}
-		else{
+ 		resetButton = createButton("Reset all values");
+ 		resetPanel.add(resetButton);
+ 		resetPage(resetButton);
+ 		add(resetPanel);
+		revalidate();
+	}
+	
+	private void customerTableSetup() throws PizzaException, CustomerException, LogHandlerException{
+		repaint();
+		String [] custHeader = {"Customer Name","Mobile Number","Customer Type","X,Y position","Delivery Distance"};
+		Object[][] custData = new Object[restaurant.getNumCustomerOrders()][5];
 			
-			Object[][] custData = new Object[restaurant.getNumCustomerOrders()][5];
-			Object[][] pizzaData = new Object[restaurant.getNumPizzaOrders()][5];
-		
 			for (int index = 0; index < restaurant.getNumCustomerOrders(); index++){
 				custData[index][0] = restaurant.getCustomerByIndex(index).getName()	;
 				custData[index][1] = restaurant.getCustomerByIndex(index).getMobileNumber();
@@ -117,6 +246,21 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 				custData[index][3] = restaurant.getCustomerByIndex(index).getLocationX() + " , " + restaurant.getCustomerByIndex(index).getLocationY();
 				custData[index][4] = restaurant.getCustomerByIndex(index).getDeliveryDistance();
 			}
+			custModel = new DefaultTableModel(custData,custHeader);
+			custTable = new JTable(custModel);
+			custData[0][0] = "Customer Name";
+			custData[0][1] = "Mobile Number";
+			custData[0][2] = "Customer Type";
+			custData[0][3] = "X,Y position";
+			custData[0][4] = "Delivery Distance";
+			custScroll = new JScrollPane(custTable);
+	}
+	
+	private void pizzaTableSetup() throws PizzaException, CustomerException, LogHandlerException{	
+		repaint();
+		String [] pizzaHeader = {"Pizza Type","Quantity","Order Price","Order Cost","Order Profit"};	
+		Object[][] pizzaData = new Object[restaurant.getNumPizzaOrders()][5];
+		
 			for (int index = 0; index < restaurant.getNumPizzaOrders(); index++){
 				restaurant.getPizzaByIndex(index).calculateCostPerPizza();
 				pizzaData[index][0] = restaurant.getPizzaByIndex(index).getPizzaType();
@@ -125,67 +269,15 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 				pizzaData[index][3] = restaurant.getPizzaByIndex(index).getOrderCost();
 				pizzaData[index][4] = restaurant.getPizzaByIndex(index).getOrderProfit();
 			}
-			custModel = new DefaultTableModel(custData,custHeader);
 			pizzaModel = new DefaultTableModel(pizzaData,pizzaHeader);
-			custTable = new JTable(custModel);
 			pizzaTable = new JTable(pizzaModel);
-			custData[0][0] = "Customer Name";
-			custData[0][1] = "Mobile Number";
-			custData[0][2] = "Customer Type";
-			custData[0][3] = "X,Y position";
-			custData[0][4] = "Delivery Distance";
 			pizzaData[0][0] = "Pizza Type";
 			pizzaData[0][1] = "Quantity";
 			pizzaData[0][2] = "Order Price";
 			pizzaData[0][3] = "Order Cost";
 			pizzaData[0][4] = "Order Profit";
-			custScroll = new JScrollPane(custTable);
 			pizzaScroll = new JScrollPane(pizzaTable);
-			lblTitle.setText("Pizza Palace Order(s) Details");
-			this.add(custScroll);
-			this.add(pizzaScroll);
-		}
-		
-		this.add(operationPanel);
-		calcDispButton = createButton("Show Calculations");
-		dispCalcButton(calcDispButton);
-		calculationPanel.add(calcDispButton);
-		this.add(calculationPanel);
-	}
-	
-	private void thirdScreen(){	
-		repaint();
-		calculationPanel.removeAll();
-		this.remove(calculationPanel);
-		lblTitle.setText("Pizza Palace Order(s) Details ");
-		totalProfit = new JTextField();
-		totalDistance = new JTextField();
-		totalProfit.setText(String.valueOf(restaurant.getTotalProfit()));
-		totalDistance.setText(String.valueOf(restaurant.getTotalDeliveryDistance()));
-		JLabel profitDesc = createLabel("Total Profit Made");
-		JLabel distanceDesc = createLabel("Total Distance Travelled");
-		resetButton = createButton("Reset all values");
-		calculationPanel.add(profitDesc);
-		calculationPanel.add(totalProfit);
-		calculationPanel.add(distanceDesc);
-		calculationPanel.add(totalDistance);
-		resetPanel.add(resetButton);
-		resetActivity(resetButton);
-		this.add(calculationPanel);
-		this.add(resetPanel);
-	}
-	
-	private void resetPage() throws PizzaException, CustomerException{
-		restaurant.resetDetails();
-		this.remove(custScroll);
-		this.remove(pizzaScroll);
-		calculationPanel.removeAll();
-		resetPanel.removeAll();
-		this.remove(calculationPanel);
-		this.remove(resetPanel);
-		lblTitle.setText("Pizza Palace Order Reciever");
-		operationPanel.add(logButton);		
-		repaint();
+			
 	}
 	
 	private JButton createButton(String text) {
@@ -197,39 +289,6 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	private JLabel createLabel(String text) {
 		JLabel label = new JLabel(text);
 		return label;	
-	} 
-
-	private void storeLogs(JButton button) throws PizzaException, CustomerException, LogHandlerException{
-		button.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e){	        		 
-				try {
-					secondPage();
-				} catch (PizzaException | CustomerException | LogHandlerException e1) {
-					
-				}	
-	         }         
-	     });
-	}
-	
-	private void resetActivity(JButton button){
-		button.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {	        		 
-					try {
-						resetPage();
-					} catch (PizzaException | CustomerException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}	     		
-	         }         
-	     });
-	}
-	
-	private void dispCalcButton(JButton button){		
-		button.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {        	 
-	        	 thirdScreen();
-	         }
-		});
 	}
 	
 	@Override
@@ -241,7 +300,6 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 

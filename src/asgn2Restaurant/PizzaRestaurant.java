@@ -44,7 +44,7 @@ public class PizzaRestaurant {
 	 * The other classes that the method interacts with are listed in Section 11 of the specification document. 
      *
      * <P> PRE: TRUE
-     * <P>POST: If no exception is thrown then the customers and pizzas fields are populated with the details in the log file ordered as they appear in teh log file.
+     * <P>POST: If no exception is thrown then the customers and pizzas fields are populated with the details in the log file ordered as they appear in the log file.
      * <P>      If an exception is thrown then the customers and pizzas fields should be empty.
      * 
 	 * @param filename The log's filename
@@ -59,12 +59,8 @@ public class PizzaRestaurant {
 			customers = LogHandler.populateCustomerDataset(filename);
 			pizzas = LogHandler.populatePizzaDataset(filename);
 		} catch(Exception e) {
-			if (e.getClass().getSimpleName() == "LogHandlerException"){
-				
-				throw new LogHandlerException();
-			}
-			System.out.println(e.getMessage());
-        	return false;
+
+			throw e;
 		}
 		return true;
 	}

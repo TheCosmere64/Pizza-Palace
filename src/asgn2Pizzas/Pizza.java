@@ -88,6 +88,7 @@ public abstract class Pizza  {
 	public final void calculateCostPerPizza(){
 		for	(int i = 0; i < pizzaToppings.size(); i++){	
 			pizzaCost += pizzaToppings.get(i).getCost();
+			System.out.println(pizzaCost);
 		}
 	}
 	
