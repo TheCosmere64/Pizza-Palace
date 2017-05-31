@@ -61,7 +61,6 @@ public abstract class Pizza  {
 		throw new PizzaException("Cannot deliver pizza before it was ordered");
 	}
 	else if (((deliveryTime.getHour() - orderTime.getHour()) * 60) + deliveryTime.getMinute() < 10){
-		System.out.println(((deliveryTime.getHour() - orderTime.getHour()) * 60) + deliveryTime.getMinute());
 		throw new PizzaException("Must allow 10 minutes to cook pizza");
 	}
 	else if (deliveryTime.getHour() - orderTime.getHour() > 1){			
@@ -88,7 +87,7 @@ public abstract class Pizza  {
 	public final void calculateCostPerPizza(){
 		for	(int i = 0; i < pizzaToppings.size(); i++){	
 			pizzaCost += pizzaToppings.get(i).getCost();
-			System.out.println(pizzaCost);
+			//System.out.println(pizzaCost);
 		}
 	}
 	

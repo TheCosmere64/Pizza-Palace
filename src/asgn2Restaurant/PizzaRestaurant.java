@@ -58,8 +58,7 @@ public class PizzaRestaurant {
 		try {
 			customers = LogHandler.populateCustomerDataset(filename);
 			pizzas = LogHandler.populatePizzaDataset(filename);
-		} catch(Exception e) {
-
+		} catch(CustomerException | PizzaException | LogHandlerException e) {
 			throw e;
 		}
 		return true;
@@ -84,13 +83,9 @@ public class PizzaRestaurant {
 	 * @throws PizzaException if index is invalid.
 	 */	
 	public Pizza getPizzaByIndex(int index) throws PizzaException{
-		try{
-			pizzas.get(index);
-		}catch(Exception e){
-			System.out.println("Pizza index is invalid");
-		}
-		return pizzas.get(index);
-				
+		if (pizzas.size() - 1 >= index) {
+			return pizzas.get(index);
+		} else throw new PizzaException("A pizza doesn't exist with this index");			
 	}
 	
 	/**
