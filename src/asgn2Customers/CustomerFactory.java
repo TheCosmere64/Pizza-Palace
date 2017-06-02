@@ -30,7 +30,6 @@ public class CustomerFactory {
 	
 	
 	public static Customer getCustomer(String customerCode, String name, String mobileNumber, int locationX,  int locationY) throws CustomerException{
-
 		if (customerCode.equals("PUC")) {
 			return new PickUpCustomer(name, mobileNumber, locationX, locationY);
 		} else if (customerCode.equals("DNC")) {
