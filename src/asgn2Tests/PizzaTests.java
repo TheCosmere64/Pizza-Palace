@@ -1,5 +1,7 @@
 package asgn2Tests;
 
+import static org.junit.Assert.*;
+
 import java.time.LocalTime;
 
 import org.junit.Before;
@@ -24,6 +26,8 @@ public class PizzaTests {
 	
 	//Meat lovers variable to test pizza abstract class
 	MeatLoversPizza meatLoversPizza;
+	VegetarianPizza vegieLoversPizza;
+	MargheritaPizza margLoversPizza;
 	
 	MargheritaPizza margPizza;
 	MeatLoversPizza meatPizza;
@@ -36,7 +40,9 @@ public class PizzaTests {
 	public void instantiateMeatLovers() throws PizzaException {
 		LocalTime order = LocalTime.of(19, 0);
 		LocalTime delivery = LocalTime.of(19, 20);
-		meatLoversPizza = new MeatLoversPizza(1, order, delivery);
+		meatLoversPizza = new MeatLoversPizza(7, order, delivery);
+		vegieLoversPizza = new VegetarianPizza(4, order, delivery);
+		margLoversPizza = new MargheritaPizza(6, order, delivery);
 	}
 	
 	
@@ -261,7 +267,78 @@ public class PizzaTests {
 		vegiePizza = new VegetarianPizza(1, order, delivery);
 	}
 	
+	//		meatLoversPizza = new MeatLoversPizza(1, order, delivery);
+
+	//TESTING THE ABSTRACT CLASS PIZZA
+	//Testing the cost per pizza of a meatlovers
+	//Tomato + Cheese + Bacon + Pepperoni + Salami = 0.5 + 1 + 1.5 + 1 + 1 = 5
+	@Test
+	public void costPerPizzaTest() throws PizzaException {
+		meatLoversPizza.calculateCostPerPizza();
+		assertEquals(5, meatLoversPizza.getCostPerPizza(), 0);
+	}
 	
+	//Testing the cost per pizza of a vegetarian
+	//Tomato, Cheese, Eggplant, Mushroom, Capsicum  = 0.5 + 1 + 0.8 + 2 + 1.2 = 5.5
+	@Test
+	public void costPerPizzaTest2() throws PizzaException {
+		vegieLoversPizza.calculateCostPerPizza();
+		assertEquals(5.5, vegieLoversPizza.getCostPerPizza(), 0);
+	}
 	
+	//Testing the cost per pizza of a vegetarian
+	//Tomato, Cheese = 0.5 + 1 = 1.5
+	@Test
+	public void costPerPizzaTest3() throws PizzaException {
+		margLoversPizza.calculateCostPerPizza();
+		assertEquals(1.5, margLoversPizza.getCostPerPizza(), 0);
+	}
+	
+	//Testing the price of a pizza which is meant to be 12
+	@Test
+	public void priceOfPizzaTest() throws PizzaException {
+		meatLoversPizza.calculateCostPerPizza();
+		assertEquals(12, meatLoversPizza.getPricePerPizza(), 0);
+	}
+	
+	//Testing the order cost of the pizzas
+	@Test
+	public void OrderCostTest() throws PizzaException {
+		meatLoversPizza.calculateCostPerPizza();
+		assertEquals(meatLoversPizza.getQuantity() * meatLoversPizza.getCostPerPizza(), meatLoversPizza.getOrderCost(), 0);
+		// amount of pizzas is 7 cost to make is 5. 7 * 5 = 35
+		assertEquals(35, meatLoversPizza.getOrderCost(), 0);
+	}
+	
+	//Testing the order price of the pizzas
+	@Test
+	public void OrderPriceTest() throws PizzaException {
+		meatLoversPizza.calculateCostPerPizza();
+		assertEquals(meatLoversPizza.getQuantity() * meatLoversPizza.getPricePerPizza(), meatLoversPizza.getOrderPrice(), 0);
+		// amount of pizzas is 7 cost to its sold to the customer at 12. 7 * 12 = 84
+		assertEquals(84, meatLoversPizza.getOrderPrice(), 0);
+	}
+	
+	//Testing the getQuantity method
+	@Test
+	public void getQuantityTest() throws PizzaException {
+		assertEquals(7, meatLoversPizza.getQuantity());
+	}
+	
+	//Testing the order profit for a meatlovers pizza
+	//The order price is 84 and the order cost is 35 so 84-35 is 49
+	@Test
+	public void getProfit() throws PizzaException {
+		meatLoversPizza.calculateCostPerPizza();
+		assertEquals(84, meatLoversPizza.getOrderPrice(), 0);
+		assertEquals(35, meatLoversPizza.getOrderCost(), 0);
+		assertEquals(49, meatLoversPizza.getOrderProfit(), 0);
+	}
+	
+	//Testing if the pizza type is returning properly
+	@Test
+	public void pizzaType() throws PizzaException {
+		assertEquals("Meatlovers", meatLoversPizza.getPizzaType());
+	}
 }
 

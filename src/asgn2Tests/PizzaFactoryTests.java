@@ -16,21 +16,21 @@ import asgn2Pizzas.PizzaFactory;
 public class PizzaFactoryTests {
 	
 
-	@Test(expected = PizzaException.class)
+	@Test
 	public void getPizzaMargherita() throws PizzaException {
 		LocalTime orderTime = LocalTime.of(19, 0);
 		LocalTime deliveryTime = LocalTime.of(19, 20);
 		PizzaFactory.getPizza("PZM", 1, orderTime, deliveryTime);
 	}
 	
-	@Test(expected = PizzaException.class)
+	@Test
 	public void getPizzaVegetarian() throws PizzaException {
 		LocalTime orderTime = LocalTime.of(19, 0);
 		LocalTime deliveryTime = LocalTime.of(19, 20);
 		PizzaFactory.getPizza("PZV", 1, orderTime, deliveryTime);
 	}
 	
-	@Test(expected = PizzaException.class)
+	@Test
 	public void getPizzaMeatLovers() throws PizzaException {
 		LocalTime orderTime = LocalTime.of(19, 0);
 		LocalTime deliveryTime = LocalTime.of(19, 20);
@@ -77,7 +77,7 @@ public class PizzaFactoryTests {
 	@Test(expected = PizzaException.class)
 	public void pizzaThrownOut() throws PizzaException {
 		LocalTime orderTime = LocalTime.of(19, 20);
-		LocalTime deliveryTime = LocalTime.of(20, 50);
+		LocalTime deliveryTime = LocalTime.of(21, 50);
 		PizzaFactory.getPizza("PZV", 1, orderTime, deliveryTime);
 	}
 	
@@ -121,6 +121,13 @@ public class PizzaFactoryTests {
 		PizzaFactory.getPizza("PZV", 15, orderTime, deliveryTime);
 	}
 	
+	//Tesing an order of 10 pizzas
+	@Test
+	public void boundaryPizza() throws PizzaException {
+		LocalTime orderTime = LocalTime.of(19, 0);
+		LocalTime deliveryTime = LocalTime.of(19, 20);
+		PizzaFactory.getPizza("PZL", 10, orderTime, deliveryTime);
+	}
 	
 	//Testing pizzas that don't have valid codes meant to throw pizzaException
 	

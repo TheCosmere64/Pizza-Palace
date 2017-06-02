@@ -51,7 +51,7 @@ public abstract class Customer {
 		} else if (firstDigit != 0) {
 			throw new CustomerException("The first digit needs to be a 0");
 		} else if (lengthNumber != 9) {
-			throw new CustomerException(mobileNumber);
+			throw new CustomerException("The length of the phoneNumber needs to be equal to 10");
 		} 
 		
 		customerName = name;

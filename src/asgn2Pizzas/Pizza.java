@@ -66,7 +66,7 @@ public abstract class Pizza  {
 	else if (deliveryTime.getHour() - orderTime.getHour() > 1){			
 		throw new PizzaException("Pizza has expired and must be thrown out");
 	}
-	else if (orderTime.getHour() < 7){			
+	else if (orderTime.getHour() < 19){			
 		throw new PizzaException("Kitchen is not yet open at this time");
 	}
 	else if (orderTime.getHour() >= 23){			
@@ -87,7 +87,6 @@ public abstract class Pizza  {
 	public final void calculateCostPerPizza(){
 		for	(int i = 0; i < pizzaToppings.size(); i++){	
 			pizzaCost += pizzaToppings.get(i).getCost();
-			//System.out.println(pizzaCost);
 		}
 	}
 	
